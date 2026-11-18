@@ -1,0 +1,793 @@
+/* =====================================================================
+   PRUMO — arquivo de aparência (CSS)
+   ---------------------------------------------------------------------
+   Aqui ficam cores, fontes, tamanhos, espaços e a versão para celular.
+
+   Ordem do arquivo:
+     1. Cores e fontes (variáveis em :root) ... MUDE AS CORES AQUI
+     2. Modo escuro (mesmas variáveis, outros valores)
+     3. Base (fundo, textos, títulos)
+     4. Topo, botões
+     5. Abertura e a "thumb" (prévia do painel)
+     6. App: barra verde, etapas, formulários, IMC, treino, academias, dieta, resumo
+     7. Responsivo (@media): como tudo se reorganiza em telas menores
+   Uma variável é usada assim: var(--green). Trocar o valor em :root muda o site todo.
+   ===================================================================== */
+
+/* Prumo
+   Layout: areia como chão (60%), faixas e trilho em verde militar/esmeralda (30%),
+   manteiga e terracota só em destaques e alertas (10%). */
+/* :root = a raiz da página. Variáveis declaradas aqui valem para o site todo. */
+:root {
+  /* Cor areia: fundo principal. */
+  --sand: #ECE5D4;        /* 60% fundo */
+  /* Cor papel: fundo de cartões e campos. */
+  --paper: #F7F3E9;       /* superfícies (off-white) */
+  /* Cor da tinta: texto principal (verde quase preto). */
+  --ink: #1D2820;
+  /* Cor do texto secundário (mais apagado). */
+  --muted: #5A6458;
+  /* Cor das linhas e bordas (tinta com 14% de opacidade). */
+  --line: rgba(29, 40, 32, .14);
+  /* Verde principal (barra, botões). */
+  --green: #1E4A39;       /* 30% verde esmeralda profundo/militar */
+  /* Verde um pouco mais claro (hover, caixa do IMC). */
+  --green-2: #2D5E49;
+  /* Verde bem claro (etiquetas). */
+  --green-soft: #DCE4D6;
+  /* Cor de texto em cima do verde. */
+  --on-green: #EFE9DA;
+  /* Cor de texto secundário em cima do verde. */
+  --on-green-muted: #B9C6B4;
+  /* Amarelo manteiga: destaques. */
+  --butter: #F0D27C;      /* 10% destaque */
+  /* Cor de texto em cima do amarelo. */
+  --butter-ink: #3A2F0E;
+  /* Terracota: alertas. */
+  --terra: #B0553A;       /* 10% destaque/alerta */
+  /* Cor de texto em cima da terracota. */
+  --on-terra: #FFF6EE;
+  /* Cor do contorno de foco do teclado. */
+  --focus: #B0553A;
+
+  /* Fontes dos títulos (se a primeira não carregar, tenta as seguintes). */
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  /* Fontes do texto comum. */
+  --f-body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  /* Arredondamento padrão das bordas. */
+  --r: 14px;
+  /* Arredondamento menor. */
+  --r-sm: 9px;
+  /* Sombra padrão (uma linha fina + uma sombra borrada embaixo). */
+  --shadow: 0 1px 0 rgba(29,40,32,.06), 0 12px 32px -18px rgba(29,40,32,.35);
+/* Fim do :root. */
+}
+/* Modo escuro: usado automaticamente quando o aparelho está no modo escuro.
+   Se mudar uma cor lá em cima, mude a versão escura dela aqui também. */
+/* Só vale se o aparelho estiver em modo escuro. */
+@media (prefers-color-scheme: dark) {
+  /* ...e se a página não forçar o tema claro (data-theme=light). */
+  :root:not([data-theme="light"]) {
+    /* Versões escuras de areia, papel, tinta e texto secundário. */
+    --sand: #111814; --paper: #19221D; --ink: #ECE6D6; --muted: #A7AFA1;
+    /* Linhas claras e transparentes. */
+    --line: rgba(236, 230, 214, .13);
+    /* Verdes mais escuros. */
+    --green: #183A2D; --green-2: #24503E; --green-soft: #22322A;
+    /* Textos sobre o verde. */
+    --on-green: #EFE9DA; --on-green-muted: #A9B8A6;
+    /* Amarelo do modo escuro. */
+    --butter: #E9C968; --butter-ink: #2E250A;
+    /* Terracota e foco do modo escuro. */
+    --terra: #D0704F; --on-terra: #1A0F0A; --focus: #E9C968;
+    /* Sombra mais forte para o fundo escuro. */
+    --shadow: 0 1px 0 rgba(0,0,0,.3), 0 14px 34px -18px rgba(0,0,0,.7);
+    /* Avisa o navegador que é tema escuro (barras de rolagem e campos ficam escuros). */
+    color-scheme: dark;
+  /* Fim do seletor. */
+  }
+/* Fim do @media. */
+}
+/* Tema escuro forçado (quando a página tiver data-theme=dark): mesmos valores acima. */
+:root[data-theme="dark"] {
+  /* Areia, papel, tinta e texto secundário escuros. */
+  --sand: #111814; --paper: #19221D; --ink: #ECE6D6; --muted: #A7AFA1;
+  /* Linhas. */
+  --line: rgba(236, 230, 214, .13);
+  /* Verdes. */
+  --green: #183A2D; --green-2: #24503E; --green-soft: #22322A;
+  /* Textos sobre o verde. */
+  --on-green: #EFE9DA; --on-green-muted: #A9B8A6;
+  /* Amarelo. */
+  --butter: #E9C968; --butter-ink: #2E250A;
+  /* Terracota e foco. */
+  --terra: #D0704F; --on-terra: #1A0F0A; --focus: #E9C968;
+  /* Sombra. */
+  --shadow: 0 1px 0 rgba(0,0,0,.3), 0 14px 34px -18px rgba(0,0,0,.7);
+  /* Componentes nativos em modo escuro. */
+  color-scheme: dark;
+/* Fim do tema escuro forçado. */
+}
+
+/* ---------- base ---------- */
+/* Todos os elementos: a largura passa a incluir padding e borda (facilita calcular tamanhos). */
+* { box-sizing: border-box; }
+/* Impede o iPhone de aumentar o texto sozinho ao girar a tela. */
+html { -webkit-text-size-adjust: 100%; }
+/* Corpo da página: */
+body {
+  /* sem margem em volta; */
+  margin: 0;
+  /* fundo areia; */
+  background: var(--sand);
+  /* texto na cor tinta; */
+  color: var(--ink);
+  /* fonte do texto comum; */
+  font-family: var(--f-body);
+  /* tamanho base 16px; */
+  font-size: 16px;
+  /* altura da linha 1,55× o tamanho da letra; */
+  line-height: 1.55;
+  /* ocupa pelo menos a altura da tela; */
+  min-height: 100vh;
+  /* vira flexbox... */
+  display: flex;
+  /* ...em coluna (topo, conteúdo, rodapé), para o rodapé ficar embaixo. */
+  flex-direction: column;
+/* Fim do body. */
+}
+/* O conteúdo principal cresce para ocupar o espaço que sobra. */
+main { flex: 1; }
+/* Títulos: fonte de destaque, linhas juntas, quebra equilibrada, sem margem e letras um pouco mais próximas. */
+h1, h2, h3 { font-family: var(--f-display); line-height: 1.08; text-wrap: balance; margin: 0; letter-spacing: -.01em; }
+/* Parágrafos sem margem (o espaço é controlado pelos containers). */
+p { margin: 0; }
+/* Qualquer elemento com o atributo hidden fica escondido de verdade (!important vence outras regras). */
+[hidden] { display: none !important; }
+/* Botões e campos herdam a fonte e a cor da página. */
+button, input, select, textarea { font: inherit; color: inherit; }
+/* Contorno de foco (só aparece com teclado): 3px terracota, afastado 2px. */
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+/* Elementos que precisam de margem lateral segura: */
+.gutter, .topbar-inner, .landing, .foot {
+  /* espaço à esquerda: 16px ou a área segura do celular com entalhe, o que for maior; */
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  /* mesma coisa à direita. */
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+/* Fim da regra. */
+}
+
+/* ---------- topo ---------- */
+/* Faixa verde fixa atrás do entalhe/barra de status do celular (altura = área segura do topo). */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--green); }
+/* Barra do topo "grudada" no alto ao rolar (sticky), acima do conteúdo (z-index), verde. */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--green); color: var(--on-green); }
+/* Conteúdo do topo: largura máxima, centralizado, flex com logo à esquerda e botões à direita. */
+.topbar-inner { max-width: 1240px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 12px; }
+/* Botão do logo: sem fundo/borda, ícone e texto lado a lado, fonte grossa e grande. */
+.brand { display: inline-flex; align-items: center; gap: 10px; background: none; border: 0; padding: 0; cursor: pointer; color: inherit; font-family: var(--f-display); font-weight: 800; font-size: 1.45rem; letter-spacing: -.02em; }
+/* Tamanho do desenho do prumo, na cor amarela. */
+.brand-mark { width: 16px; height: 22px; color: var(--butter); }
+/* Área dos botões do topo: em linha, com espaço entre eles. */
+.topbar-actions { display: flex; align-items: center; gap: 10px; min-width: 0; }
+/* "Olá, Nome": menor, cor apagada, numa linha só e com "..." se for comprido. */
+.who { font-size: .9rem; color: var(--on-green-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 40vw; }
+/* Botões fantasma no topo: texto claro e borda clara. */
+.topbar .btn-ghost { color: var(--on-green); border-color: rgba(239,233,218,.35); }
+/* Ao passar o mouse: fundo levemente claro. */
+.topbar .btn-ghost:hover { background: rgba(239,233,218,.1); }
+
+/* ---------- botões ---------- */
+/* Botão base: em linha, centralizado, cantos totalmente redondos (pílula), padding, negrito e animação suave. */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px; border: 1.5px solid transparent; padding: 10px 20px; font-weight: 600; cursor: pointer; text-decoration: none; line-height: 1.2; transition: transform .12s ease, background-color .15s ease, border-color .15s ease; }
+/* Ao clicar, desce 1px (efeito de apertar). */
+.btn:active { transform: translateY(1px); }
+/* Botão grande: mais padding e letra maior. */
+.btn-lg { padding: 14px 26px; font-size: 1.05rem; }
+/* Botão principal: fundo verde, texto claro. */
+.btn-primary { background: var(--green); color: var(--on-green); }
+/* Ao passar o mouse: verde mais claro. */
+.btn-primary:hover { background: var(--green-2); }
+/* Botão de destaque: fundo amarelo. */
+.btn-accent { background: var(--butter); color: var(--butter-ink); }
+/* Ao passar o mouse: um pouco mais claro. */
+.btn-accent:hover { filter: brightness(1.04); }
+/* Botão contorno: sem fundo, só a borda. */
+.btn-line { background: transparent; border-color: var(--line); color: var(--ink); }
+/* Ao passar o mouse: borda mais escura. */
+.btn-line:hover { border-color: var(--ink); }
+/* Botão fantasma: sem fundo, menor. */
+.btn-ghost { background: transparent; border-color: var(--line); padding: 7px 14px; font-size: .92rem; }
+/* Botão pequeno. */
+.btn-sm { padding: 6px 12px; font-size: .88rem; }
+
+/* ---------- abertura ---------- */
+/* Tela de abertura: largura máxima, centralizada, espaços que crescem com a tela (clamp) e grade. */
+.landing { max-width: 1240px; margin: 0 auto; padding-block: clamp(32px, 6vw, 72px) 56px; display: grid; gap: clamp(48px, 7vw, 88px); }
+/* Parte de cima: 2 colunas (texto e prévia), centralizadas na vertical. */
+.landing-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(32px, 5vw, 64px); align-items: center; }
+/* Frase acima do título: pequena, negrito, maiúsculas, espaçada, terracota. */
+.eyebrow { font-size: .82rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--terra); margin-bottom: 18px; }
+/* Título da abertura: enorme (cresce com a tela), extra-negrito, verde. */
+.landing h1 { font-size: clamp(3rem, 7.2vw, 5.6rem); font-weight: 800; letter-spacing: -.035em; color: var(--green); }
+/* No tema escuro forçado o título fica na cor do texto. */
+:root[data-theme="dark"] .landing h1 { color: var(--ink); }
+/* Mesma coisa no modo escuro automático. */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .landing h1 { color: var(--ink); } }
+/* A palavra destacada: sem itálico, com um degradê que imita marca-texto amarelo. */
+.landing h1 em { font-style: normal; background: linear-gradient(transparent 62%, var(--butter) 62%, var(--butter) 92%, transparent 92%); padding: 0 .06em; color: inherit; }
+/* Parágrafo de apresentação: maior, apagado, no máximo 52 caracteres por linha. */
+.lede { font-size: clamp(1.05rem, 1.6vw, 1.2rem); color: var(--muted); max-width: 52ch; margin-top: 22px; }
+/* Botões de ação: lado a lado, quebrando linha se faltar espaço. */
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+/* Texto pequeno de aviso. */
+.fine { font-size: .88rem; color: var(--muted); margin-top: 14px; }
+
+/* A "thumb": janelinha inclinada que mostra como fica o painel final. */
+/* thumb */
+/* A figura da prévia: sem margem, em grade. */
+.thumb { margin: 0; display: grid; gap: 10px; min-width: 0; }
+/* Legenda: pequena, apagada, alinhada à direita. */
+.thumb figcaption { font-size: .85rem; color: var(--muted); text-align: right; }
+/* Janela: fundo papel, cantos redondos, sombra, levemente girada (-1,2 graus). */
+.thumb-window { background: var(--paper); border-radius: 18px; box-shadow: var(--shadow), 0 0 0 1px var(--line); overflow: hidden; transform: rotate(-1.2deg); transition: transform .4s ease; }
+/* Ao passar o mouse, a janela endireita. */
+.thumb:hover .thumb-window { transform: rotate(0deg); }
+/* Barrinha da janela: verde, itens em linha, letra pequena. */
+.thumb-bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: var(--green); color: var(--on-green-muted); font-size: .75rem; }
+/* As três bolinhas: 9px, redondas, claras. */
+.thumb-bar i { width: 9px; height: 9px; border-radius: 50%; background: rgba(239,233,218,.28); }
+/* Título da barrinha afastado das bolinhas. */
+.thumb-bar span { margin-left: 8px; }
+/* Corpo da janela: 2 colunas (40% e 60%). */
+.thumb-body { display: grid; grid-template-columns: 40% 60%; min-height: 300px; }
+/* Coluna verde: fundo verde claro, itens em coluna. */
+.thumb-side { background: var(--green-2); color: var(--on-green); padding: 20px 18px; display: flex; flex-direction: column; gap: 6px; }
+/* Rótulos pequenos: maiúsculas, espaçados, um pouco transparentes. */
+.t-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; opacity: .75; }
+/* Número do IMC de exemplo: grande, dígitos de mesma largura. */
+.t-imc { font-family: var(--f-display); font-size: 3rem; line-height: 1; font-variant-numeric: tabular-nums; }
+/* Etiqueta de exemplo: amarela, em formato de pílula. */
+.t-pill { align-self: flex-start; background: var(--butter); color: var(--butter-ink); font-size: .72rem; font-weight: 700; border-radius: 999px; padding: 3px 10px; }
+/* Régua de exemplo: degradê com as 4 cores das faixas de IMC. */
+.t-gauge { position: relative; height: 6px; border-radius: 6px; margin: 12px 0 8px; background: linear-gradient(90deg, #c9b37a 0 14%, #8fb79a 14% 40%, var(--butter) 40% 60%, var(--terra) 60%); }
+/* Marcador da régua: tracinho claro posicionado por cima. */
+.t-gauge b { position: absolute; top: -4px; width: 4px; height: 14px; border-radius: 2px; background: var(--on-green); }
+/* Lista de etapas de exemplo: sem marcadores, em grade. */
+.t-steps { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; font-size: .8rem; color: var(--on-green-muted); }
+/* Cada item: bolinha e texto lado a lado. */
+.t-steps li { display: flex; align-items: center; gap: 8px; }
+/* Bolinha vazia antes de cada item (::before cria um elemento só com CSS). */
+.t-steps li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid currentColor; }
+/* Etapas feitas: bolinha preenchida. */
+.t-steps .done::before { background: currentColor; }
+/* Etapa atual: amarela e em negrito. */
+.t-steps .on { color: var(--butter); font-weight: 700; }
+/* Bolinha da etapa atual: amarela. */
+.t-steps .on::before { background: var(--butter); border-color: var(--butter); }
+/* Coluna principal: itens em coluna. */
+.thumb-main { padding: 20px 18px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+/* Rótulo da coluna principal: cor apagada, sem transparência. */
+.thumb-main .t-label { color: var(--muted); opacity: 1; }
+/* Agenda de exemplo: sem marcadores, em grade. */
+.t-day { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: .82rem; }
+/* Cada evento: coluna de 44px para o horário e o resto para o texto, com linha tracejada embaixo. */
+.t-day li { display: grid; grid-template-columns: 44px 1fr; gap: 8px; padding-bottom: 8px; border-bottom: 1px dashed var(--line); }
+/* Horário: dígitos alinhados, apagado. */
+.t-day time { font-variant-numeric: tabular-nums; color: var(--muted); font-weight: 600; }
+/* Evento destacado (treino): terracota. */
+.t-day .hl { color: var(--terra); font-weight: 700; }
+/* Etiquetas de exemplo: empurradas para o fim da coluna (margin-top auto). */
+.t-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+/* Cada etiqueta: pílula verde clara. */
+.t-chips span { font-size: .72rem; border-radius: 999px; padding: 3px 10px; background: var(--green-soft); color: var(--ink); }
+
+/* fluxo */
+/* Título "Como o plano é montado". */
+.landing-flow h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin-bottom: 22px; }
+/* Lista de passos: grade de 3 colunas, contador 'f' zerado, linha verde em cima. */
+.flow { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; counter-reset: f; border-top: 2px solid var(--green); }
+/* Cada passo: soma 1 no contador, borda embaixo. */
+.flow li { counter-increment: f; padding: 20px 22px 22px 0; display: grid; gap: 6px; border-bottom: 1px solid var(--line); }
+/* Passos que não são o 1º da linha: borda e espaço à esquerda. */
+.flow li:not(:nth-child(3n+1)) { padding-left: 22px; border-left: 1px solid var(--line); }
+/* Número do passo gerado pelo contador (01, 02...), terracota. */
+.flow li::before { content: counter(f, decimal-leading-zero); font-family: var(--f-display); font-weight: 700; color: var(--terra); font-size: .95rem; font-variant-numeric: tabular-nums; }
+/* Nome do passo. */
+.flow strong { font-family: var(--f-display); font-size: 1.15rem; }
+/* Descrição do passo. */
+.flow span { color: var(--muted); font-size: .95rem; }
+
+/* App = barra verde à esquerda (300px) + área das etapas à direita. */
+/* ---------- app ---------- */
+/* App: grade com 2 colunas (barra de 300px e o resto). */
+.app { display: grid; grid-template-columns: 300px minmax(0, 1fr); min-height: calc(100vh - 60px); }
+/* Barra lateral verde. */
+.rail { background: var(--green); color: var(--on-green); }
+/* Conteúdo da barra: gruda abaixo do topo ao rolar, com espaçamentos. */
+.rail-inner { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 62px); padding: 28px max(16px, env(safe-area-inset-left, 0px)) 28px 24px; display: grid; gap: 26px; }
+/* Quadro do IMC na barra: verde mais claro, cantos redondos. */
+.rail-imc { background: var(--green-2); border-radius: var(--r); padding: 18px; display: grid; gap: 4px; }
+/* Rótulo "Seu IMC". */
+.rail-imc .label { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: var(--on-green-muted); }
+/* Número do IMC: grande. */
+.rail-imc strong { font-family: var(--f-display); font-size: 2.8rem; line-height: 1; font-variant-numeric: tabular-nums; }
+/* Pílula da categoria (neutra). */
+.rail-imc .pill { justify-self: start; font-size: .78rem; font-weight: 700; border-radius: 999px; padding: 3px 11px; background: rgba(239,233,218,.14); color: var(--on-green); }
+/* Pílula 'ok': amarela. */
+.rail-imc .pill.ok { background: var(--butter); color: var(--butter-ink); }
+/* Pílula 'warn': terracota. */
+.rail-imc .pill.warn { background: var(--terra); color: var(--on-terra); }
+/* Lista de etapas: sem marcadores, em grade. */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+/* Cada item é a referência para posicionamentos internos. */
+.steps li { position: relative; }
+/* Botão de cada etapa: largura total, bolinha e texto lado a lado, sem fundo. */
+.steps button { width: 100%; display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 10px; background: none; border: 0; color: var(--on-green-muted); text-align: left; cursor: pointer; font-size: .96rem; }
+/* Etapa ainda não liberada: cursor normal e meio transparente. */
+.steps button:disabled { cursor: default; opacity: .55; }
+/* Etapa liberada, ao passar o mouse: fundo leve e texto claro. */
+.steps button:not(:disabled):hover { background: rgba(239,233,218,.08); color: var(--on-green); }
+/* Bolinha com número: 22px, redonda, número centralizado. */
+.steps .dot { width: 22px; height: 22px; flex: none; border-radius: 50%; border: 1.5px solid currentColor; display: grid; place-items: center; font-size: .72rem; font-weight: 700; }
+/* Etapa concluída: texto claro. */
+.steps .done button { color: var(--on-green); }
+/* Bolinha da concluída: preenchida. */
+.steps .done .dot { background: var(--on-green); color: var(--green); border-color: var(--on-green); }
+/* Etapa atual: amarela, negrito, com fundo leve. */
+.steps .current button { color: var(--butter); font-weight: 700; background: rgba(239,233,218,.08); }
+/* Bolinha da atual: borda amarela. */
+.steps .current .dot { border-color: var(--butter); }
+/* Palavra "opcional": pequena, empurrada para a direita. */
+.steps .opt { font-size: .72rem; margin-left: auto; opacity: .7; font-weight: 500; }
+/* Nota da barra: pequena e apagada. */
+.rail-note { font-size: .8rem; color: var(--on-green-muted); line-height: 1.5; }
+
+/* Área das etapas: espaços que acompanham a tela e a área segura do celular. */
+.stage { padding: clamp(24px, 4vw, 48px) max(16px, env(safe-area-inset-right, 0px)) 64px max(16px, 3.5vw); min-width: 0; }
+/* Painel: largura máxima, grade e animação de entrada "rise". */
+.panel { max-width: 780px; display: grid; gap: 22px; animation: rise .35s ease both; }
+/* Painel largo (resumo). */
+.panel-wide { max-width: 1080px; }
+/* Animação rise: começa invisível e 8px abaixo, termina visível no lugar. */
+@keyframes rise { from { opacity: .001; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+/* Cabeçalho do painel em grade. */
+.panel-head { display: grid; gap: 8px; }
+/* "Etapa X": pequeno, maiúsculas, terracota. */
+.kicker { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terra); }
+/* Título da etapa: grande e extra-negrito. */
+.panel h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); font-weight: 800; }
+/* Subtítulo: apagado, até 60 caracteres por linha. */
+.sub { color: var(--muted); max-width: 60ch; }
+
+/* tabs */
+/* Caixa das abas: pílula com fundo papel e borda. */
+.tabs { display: inline-flex; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px; justify-self: start; }
+/* Cada aba: sem borda/fundo, negrito, apagada. */
+.tab { border: 0; background: none; padding: 8px 18px; border-radius: 999px; cursor: pointer; font-weight: 600; color: var(--muted); }
+/* Aba selecionada: fundo verde. */
+.tab[aria-selected="true"] { background: var(--green); color: var(--on-green); }
+
+/* formulários */
+/* Formulário em grade. */
+.form { display: grid; gap: 18px; }
+/* Grade de 2 colunas iguais. */
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; }
+/* Grade de 3 colunas iguais. */
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 16px; }
+/* Campo: grade, sem borda e sem margem (zera estilo do fieldset). */
+.field { display: grid; gap: 6px; border: 0; margin: 0; padding: 0; min-width: 0; }
+/* Rótulos dos campos: negrito. */
+.field > span, .field legend, .field-title { font-weight: 600; font-size: .95rem; padding: 0; }
+/* Espaço abaixo do título do grupo. */
+.field legend { margin-bottom: 6px; }
+/* Textos pequenos dentro do campo: normais e apagados. */
+.field small { font-weight: 400; color: var(--muted); }
+/* Campo estreito (peso no login). */
+.field.narrow { max-width: 260px; }
+/* Caixas de texto, listas e áreas de texto (menos rádios e checkboxes): */
+input:not([type="radio"]):not([type="checkbox"]), select, textarea {
+  /* largura total, fundo papel, borda e cantos; */
+  width: 100%; background: var(--paper); border: 1.5px solid var(--line); border-radius: var(--r-sm);
+  /* espaço interno, altura mínima de 46px (bom para o dedo) e animação da borda. */
+  padding: 11px 13px; min-height: 46px; transition: border-color .15s ease;
+/* Fim da regra. */
+}
+/* Área de texto: só estica na vertical. */
+textarea { resize: vertical; min-height: 90px; }
+/* Ao passar o mouse: borda mais escura (mistura de cores com color-mix). */
+input:hover, select:hover, textarea:hover { border-color: color-mix(in srgb, var(--ink) 35%, transparent); }
+/* Com foco: tira o contorno padrão, borda verde e um brilho verde em volta. */
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--green-2); box-shadow: 0 0 0 3px color-mix(in srgb, var(--green-2) 22%, transparent); }
+/* Texto de exemplo (placeholder) mais apagado. */
+input::placeholder, textarea::placeholder { color: color-mix(in srgb, var(--muted) 75%, transparent); }
+/* Dica pequena. */
+.hint { font-size: .85rem; color: var(--muted); }
+/* Mensagem de erro: terracota e negrito. */
+.form-error { color: var(--terra); font-weight: 600; font-size: .92rem; min-height: 0; }
+/* Se a mensagem de erro estiver vazia, some. */
+.form-error:empty { display: none; }
+/* Área de botões: em linha, alinhada à direita. */
+.actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+/* Nota: fundo papel com borda amarela à esquerda. */
+.note { font-size: .92rem; color: var(--muted); background: var(--paper); border-left: 3px solid var(--butter); padding: 12px 14px; border-radius: 0 var(--r-sm) var(--r-sm) 0; }
+
+/* Botões de escolha (rádio e caixas de marcar) estilizados como "pílulas". */
+/* segmentado */
+/* Botões segmentados: em linha, quebrando se faltar espaço. */
+.seg { display: flex; flex-wrap: wrap; gap: 8px; }
+/* Cada opção é referência para o input escondido. */
+.seg label, .chip { position: relative; cursor: pointer; }
+/* O rádio/checkbox real fica invisível por cima de tudo (continua clicável e acessível). */
+.seg input, .chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+/* O texto vira a pílula visível: borda, fundo papel, negrito e animação de cor. */
+.seg span, .chip span { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--paper); font-weight: 600; font-size: .94rem; transition: background-color .15s ease, border-color .15s ease, color .15s ease; }
+/* Ao passar o mouse: borda verde. */
+.seg label:hover span, .chip:hover span { border-color: var(--green-2); }
+/* Quando marcado: a pílula logo depois (+) fica verde. */
+.seg input:checked + span, .chip input:checked + span { background: var(--green); border-color: var(--green); color: var(--on-green); }
+/* Com foco do teclado: contorno terracota na pílula. */
+.seg input:focus-visible + span, .chip input:focus-visible + span { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* Grupo de chips: em linha. */
+.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+/* Chips pequenos: menos padding e letra menor. */
+.chips.small .chip span { padding: 7px 14px; font-size: .9rem; }
+/* Chip "Não faço esporte" marcado: terracota. */
+.chip.none input:checked + span { background: var(--terra); border-color: var(--terra); color: var(--on-terra); }
+/* Ícone (emoji) do chip. */
+.chip .ico { font-size: 1rem; line-height: 1; }
+
+/* Caixa do IMC com a régua colorida: bege = abaixo, verde = adequado,
+   amarelo = sobrepeso, terracota = obesidade. */
+/* IMC */
+/* Caixa do IMC: fundo papel, borda, cantos e grade. */
+.imc-box { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; display: grid; gap: 18px; }
+/* IMC ao vivo: 2 colunas (número e régua). */
+.imc-live { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px 24px; align-items: center; }
+/* Bloco do número. */
+.imc-read { display: grid; gap: 2px; min-width: 120px; }
+/* Rótulo "IMC". */
+.imc-read .label { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: var(--muted); }
+/* Número do IMC: grande e verde. */
+.imc-read strong { font-family: var(--f-display); font-size: 2.8rem; line-height: 1; color: var(--green); font-variant-numeric: tabular-nums; }
+/* Tema escuro forçado: número amarelo. */
+:root[data-theme="dark"] .imc-read strong { color: var(--butter); }
+/* Modo escuro automático: número amarelo. */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .imc-read strong { color: var(--butter); } }
+/* Categoria em negrito. */
+.imc-cat { font-weight: 700; font-size: .92rem; }
+/* Régua: referência para o marcador. */
+.gauge { position: relative; padding-top: 6px; }
+/* Faixa: grade com as 4 larguras (14%, 26%, 20%, 40%), 10px de altura. */
+.gauge-track { display: grid; grid-template-columns: 14% 26% 20% 40%; height: 10px; border-radius: 10px; overflow: hidden; }
+/* Cada pedaço da faixa vira bloco. */
+.gauge-track i { display: block; }
+/* Cores dos pedaços: bege, verde, amarelo e terracota. */
+.g-low { background: #C9B37A; } .g-ok { background: #6FA383; } .g-over { background: var(--butter); } .g-ob { background: var(--terra); }
+/* Marcador: posicionado por cima, centralizado (translateX -50%), invisível até ter IMC, com animação ao mover. */
+.gauge-pin { position: absolute; top: 0; left: 0; width: 6px; height: 22px; border-radius: 3px; background: var(--ink); transform: translateX(-50%); opacity: 0; transition: left .35s cubic-bezier(.2,.8,.2,1), opacity .2s; box-shadow: 0 0 0 2px var(--paper); }
+/* Linha dos números de referência. */
+.gauge-scale { position: relative; height: 18px; font-size: .72rem; color: var(--muted); font-variant-numeric: tabular-nums; margin-top: 4px; }
+/* Cada número é posicionado e centralizado. */
+.gauge-scale span { position: absolute; transform: translateX(-50%); }
+/* Posições: 18,5 em 14%, 25 em 40% e 30 em 60%. */
+.gauge-scale span:nth-child(1) { left: 14%; } .gauge-scale span:nth-child(2) { left: 40%; } .gauge-scale span:nth-child(3) { left: 60%; }
+/* Dica: ocupa as 2 colunas. */
+.imc-tip { grid-column: 1 / -1; font-size: .92rem; color: var(--muted); }
+/* Se a dica estiver vazia, some. */
+.imc-tip:empty { display: none; }
+
+/* esportes frequência */
+/* Lista de frequências em grade. */
+.freq-list { display: grid; gap: 10px; }
+/* Cada linha: nome + 2 selects, com fundo papel e borda. */
+.freq-row { display: grid; grid-template-columns: minmax(120px, 1fr) auto auto; gap: 12px; align-items: center; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-sm); padding: 12px 14px; }
+/* Nome do esporte em negrito. */
+.freq-row strong { font-weight: 700; min-width: 0; }
+/* Selects menores e com largura automática. */
+.freq-row select { min-height: 40px; padding: 7px 10px; width: auto; }
+
+/* cartões de resultado */
+/* Cartão: fundo papel, borda, cantos, espaço interno e grade. */
+.card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+/* Título do cartão. */
+.card h3 { font-size: 1.2rem; }
+/* Cabeçalho do cartão: título e etiqueta nas pontas. */
+.card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+/* Etiqueta (tag): pílula pequena verde clara. */
+.tag { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--green-soft); color: var(--ink); white-space: nowrap; }
+/* Etiqueta de destaque: amarela. */
+.tag.accent { background: var(--butter); color: var(--butter-ink); }
+/* Etiqueta de alerta: terracota. */
+.tag.warn { background: var(--terra); color: var(--on-terra); }
+/* Texto apagado (classe usada no app.js). */
+.muted { color: var(--muted); }
+
+/* treino */
+/* Semana: grade de 7 colunas. */
+.week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+/* Cada dia: caixinha centralizada com borda. */
+.week div { text-align: center; padding: 8px 2px; border-radius: 10px; border: 1px solid var(--line); font-size: .82rem; font-weight: 600; color: var(--muted); }
+/* Letra do treino (A, B, C...) embaixo do nome do dia. */
+.week div b { display: block; font-family: var(--f-display); font-size: 1rem; color: var(--ink); }
+/* Dia com treino: verde. */
+.week .on { background: var(--green); border-color: var(--green); color: var(--on-green-muted); }
+/* Letra no dia com treino: amarela. */
+.week .on b { color: var(--butter); }
+/* Dia com esporte: verde claro. */
+.week .sport { background: var(--green-soft); }
+/* Grade de treinos: quantas colunas couberem com pelo menos 240px. */
+.workouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+/* Cartão do treino: em coluna, conteúdo cortado nos cantos. */
+.wo { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; display: flex; flex-direction: column; }
+/* Cabeçalho do treino: verde. */
+.wo-head { background: var(--green); color: var(--on-green); padding: 12px 16px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+/* Nome do treino. */
+.wo-head strong { font-family: var(--f-display); font-size: 1.1rem; }
+/* Foco do treino. */
+.wo-head span { font-size: .82rem; color: var(--on-green-muted); }
+/* Lista de exercícios sem marcadores. */
+.wo ul { list-style: none; margin: 0; padding: 6px 16px 12px; }
+/* Cada exercício: nome à esquerda, séries à direita, linha tracejada. */
+.wo li { display: flex; justify-content: space-between; gap: 10px; padding: 9px 0; border-bottom: 1px dashed var(--line); font-size: .93rem; }
+/* Último exercício sem linha embaixo. */
+.wo li:last-child { border-bottom: 0; }
+/* Séries: sem itálico, apagadas, numa linha só. */
+.wo li em { font-style: normal; font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; font-size: .88rem; }
+/* Exercícios extras ganham " · foco" em terracota depois do nome. */
+.wo li.extra span::after { content: " · foco"; color: var(--terra); font-weight: 700; font-size: .8rem; }
+/* Rodapé do treino: empurrado para baixo, com borda em cima. */
+.wo-foot { margin-top: auto; padding: 10px 16px; font-size: .85rem; color: var(--muted); border-top: 1px solid var(--line); }
+/* Caixa da pergunta "aplicar treino": verde. */
+.ask { background: var(--green); color: var(--on-green); border-radius: var(--r); padding: 22px; display: grid; gap: 16px; }
+/* Texto da pergunta: grande. */
+.ask-q { font-family: var(--f-display); font-size: clamp(1.2rem, 2.2vw, 1.5rem); font-weight: 700; }
+/* Botões contorno dentro da caixa: claros. */
+.ask .btn-line { color: var(--on-green); border-color: rgba(239,233,218,.35); }
+/* Ao passar o mouse: borda clara. */
+.ask .btn-line:hover { border-color: var(--on-green); }
+/* Botão principal dentro da caixa: amarelo. */
+.ask .btn-primary { background: var(--butter); color: var(--butter-ink); }
+/* Ao passar o mouse: amarelo mais claro. */
+.ask .btn-primary:hover { filter: brightness(1.05); background: var(--butter); }
+
+/* sono */
+/* Linha do sono: itens em linha. */
+.sono { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: .95rem; }
+/* Se vazia, some. */
+.sono:empty { display: none; }
+
+/* academias */
+/* Cartão de lugares em grade. */
+.places { display: grid; gap: 14px; margin-top: 6px; }
+/* Grade de links: colunas de pelo menos 220px. */
+.place-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+/* Cada link: caixa com borda, sem sublinhado e animação. */
+.plink { display: grid; gap: 4px; padding: 14px 16px; border-radius: var(--r-sm); border: 1.5px solid var(--line); background: var(--paper); text-decoration: none; color: var(--ink); transition: border-color .15s ease, transform .15s ease; }
+/* Ao passar o mouse: borda verde e sobe 1px. */
+.plink:hover { border-color: var(--green-2); transform: translateY(-1px); }
+/* Título do link. */
+.plink strong { font-weight: 700; }
+/* Descrição do link. */
+.plink span { font-size: .85rem; color: var(--muted); }
+/* Link principal: verde. */
+.plink.main { background: var(--green); color: var(--on-green); border-color: var(--green); }
+/* Descrição do link principal: clara. */
+.plink.main span { color: var(--on-green-muted); }
+/* Bloco da mensagem em grade. */
+.msg { display: grid; gap: 8px; }
+/* Caixa da mensagem: borda tracejada; user-select all seleciona tudo com um clique. */
+.msg-box { background: var(--sand); border: 1px dashed var(--line); border-radius: var(--r-sm); padding: 12px 14px; font-size: .93rem; white-space: pre-wrap; user-select: all; }
+/* Lista de passos para contato. */
+.steps-mini { margin: 0; padding-left: 20px; display: grid; gap: 4px; font-size: .93rem; color: var(--muted); }
+
+/* dieta */
+/* Faixa de números da dieta: colunas de pelo menos 150px. */
+.diet-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+/* Cada caixa de número. */
+.stat { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-sm); padding: 12px 14px; display: grid; gap: 2px; }
+/* Rótulo da caixa. */
+.stat span { font-size: .78rem; color: var(--muted); font-weight: 600; }
+/* Valor da caixa: grande. */
+.stat strong { font-family: var(--f-display); font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+/* Caixa destacada (meta): verde. */
+.stat.hl { background: var(--green); border-color: var(--green); color: var(--on-green); }
+/* Rótulo da caixa destacada: claro. */
+.stat.hl span { color: var(--on-green-muted); }
+/* Lista de refeições em grade. */
+.meals { display: grid; gap: 12px; }
+/* Cada refeição: 3 colunas (horário, alimentos, botão). */
+.meal { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); display: grid; grid-template-columns: 92px minmax(0, 1fr) auto; gap: 14px; padding: 16px; align-items: start; }
+/* Horário: grande, verde. */
+.meal time { font-family: var(--f-display); font-weight: 700; font-size: 1.25rem; font-variant-numeric: tabular-nums; color: var(--green); }
+/* Tema escuro forçado: horário amarelo. */
+:root[data-theme="dark"] .meal time { color: var(--butter); }
+/* Modo escuro automático: horário amarelo. */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .meal time { color: var(--butter); } }
+/* Palavrinha "lanche" embaixo do horário. */
+.meal time small { display: block; font-family: var(--f-body); font-size: .78rem; color: var(--muted); font-weight: 600; }
+/* Nome da refeição. */
+.meal h4 { margin: 0 0 6px; font-size: 1rem; }
+/* Lista de alimentos sem marcadores. */
+.meal ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; font-size: .94rem; }
+/* Cada alimento: nome e quantidade nas pontas. */
+.meal li { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px dashed var(--line); padding-bottom: 4px; }
+/* Quantidade: apagada. */
+.meal li em { font-style: normal; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* Calorias da refeição. */
+.meal .kcal { font-size: .82rem; color: var(--muted); margin-top: 6px; font-variant-numeric: tabular-nums; }
+/* Bloco dos alimentos removidos. */
+.removed { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: .9rem; }
+/* Texto riscado (s) apagado. */
+.removed s { color: var(--muted); }
+/* Etiquetas de removidos: riscadas e sem fundo. */
+.removed .tag { text-decoration: line-through; background: transparent; border: 1px solid var(--line); color: var(--muted); }
+
+/* resumo */
+/* Resumo: grade de 12 colunas. */
+.summary { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; }
+/* Cartão do IMC ocupa 4 colunas. */
+.summary > .s-imc { grid-column: span 4; }
+/* Cartão do dia ocupa 8 colunas e 2 linhas. */
+.summary > .s-day { grid-column: span 8; grid-row: span 2; }
+/* Cartão de esportes ocupa 4 colunas. */
+.summary > .s-sports { grid-column: span 4; }
+/* Cartões largos ocupam a linha toda. */
+.summary > .s-full { grid-column: 1 / -1; }
+/* Cartão do IMC: verde. */
+.s-imc { background: var(--green); color: var(--on-green); border-color: var(--green); }
+/* Texto apagado dentro dele: claro. */
+.s-imc .muted { color: var(--on-green-muted); }
+/* Número grande do IMC. */
+.big { font-family: var(--f-display); font-size: 3.6rem; line-height: 1; font-variant-numeric: tabular-nums; }
+/* Linha do tempo: sem marcadores. */
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; }
+/* Cada evento: 3 colunas (horário, bolinha, texto). */
+.timeline li { display: grid; grid-template-columns: 58px 16px minmax(0, 1fr); gap: 10px; align-items: start; padding: 7px 0; position: relative; }
+/* Horário do evento. */
+.timeline time { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--muted); font-size: .92rem; }
+/* Bolinha: 12px, borda verde, acima da linha (z-index). */
+.timeline .pt { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--green-2); margin-top: 5px; background: var(--paper); position: relative; z-index: 1; }
+/* Linha vertical entre as bolinhas (menos no último evento). */
+.timeline li:not(:last-child)::after { content: ""; position: absolute; left: 73px; top: 22px; bottom: -8px; width: 2px; background: var(--line); }
+/* Texto do evento em grade. */
+.timeline .t-txt { display: grid; }
+/* Detalhe do evento. */
+.timeline .t-txt small { color: var(--muted); font-size: .86rem; }
+/* Bolinha de treino: terracota. */
+.timeline .k-treino .pt { background: var(--terra); border-color: var(--terra); }
+/* Título de treino: terracota. */
+.timeline .k-treino strong { color: var(--terra); }
+/* Bolinha de refeição: amarela. */
+.timeline .k-refeicao .pt { background: var(--butter); border-color: var(--butter); }
+/* Bolinha de sono: verde. */
+.timeline .k-sono .pt { background: var(--green); border-color: var(--green); }
+/* Lista de esportes do resumo. */
+.sport-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+/* Cada esporte: nome e frequência nas pontas. */
+.sport-list li { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px dashed var(--line); padding-bottom: 8px; }
+/* Botões finais do resumo. */
+.resumo-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+
+/* Toast: fixo embaixo, centralizado, fundo escuro, pílula, acima de tudo (z-index 50). */
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--sand); padding: 10px 18px; border-radius: 999px; font-weight: 600; font-size: .92rem; z-index: 50; box-shadow: var(--shadow); max-width: calc(100% - 32px); }
+
+/* Rodapé: centralizado, pequeno, borda em cima. */
+.foot { padding-block: 22px; text-align: center; font-size: .82rem; color: var(--muted); border-top: 1px solid var(--line); }
+
+/* Até 980px (tablet): barra verde vira faixa no topo.
+   Até 720px e 520px (celular): colunas viram uma só, botões ocupam a largura. */
+/* ---------- responsivo ---------- */
+/* Telas até 980px (tablet): */
+@media (max-width: 980px) {
+  /* abertura com 1 coluna; */
+  .landing-hero { grid-template-columns: minmax(0, 1fr); }
+  /* prévia com no máximo 560px; */
+  .thumb { max-width: 560px; }
+  /* app com 1 coluna (barra vai para cima); */
+  .app { grid-template-columns: minmax(0, 1fr); }
+  /* barra deixa de grudar e vira faixa com IMC e etapas lado a lado; */
+  .rail-inner { position: static; padding: 16px max(16px, env(safe-area-inset-left, 0px)) 16px max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 16px; }
+  /* quadro do IMC menor; */
+  .rail-imc { padding: 12px 14px; }
+  /* número do IMC menor; */
+  .rail-imc strong { font-size: 2rem; }
+  /* etapas em linha, com rolagem horizontal (sem barra de rolagem visível); */
+  .steps { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  /* botões das etapas menores, sem quebrar linha; */
+  .steps button { white-space: nowrap; padding: 7px 9px; font-size: .86rem; }
+  /* esconde nomes e "opcional" das etapas (só números)... */
+  .steps .label-txt, .steps .opt { display: none; }
+  /* ...mas mostra o nome da etapa atual; */
+  .steps .current .label-txt { display: inline; }
+  /* esconde a nota da barra; */
+  .rail-note { display: none; }
+  /* ajusta o espaço da esquerda; */
+  .stage { padding-left: max(16px, env(safe-area-inset-left, 0px)); }
+  /* todos os cartões do resumo ocupam a linha toda. */
+  .summary > * { grid-column: 1 / -1 !important; grid-row: auto !important; }
+/* Fim do @media 980px. */
+}
+/* Telas até 720px: */
+@media (max-width: 720px) {
+  /* passos da abertura em 1 coluna; */
+  .flow { grid-template-columns: minmax(0, 1fr); }
+  /* sem bordas laterais nos passos; */
+  .flow li, .flow li:not(:nth-child(3n+1)) { padding: 16px 0; border-left: 0; }
+  /* grade de 3 vira 2 colunas; */
+  .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* refeição em 1 coluna; */
+  .meal { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  /* botão da refeição alinhado à esquerda. */
+  .meal .btn { justify-self: start; }
+/* Fim do @media 720px. */
+}
+/* Telas até 520px (celular): */
+@media (max-width: 520px) {
+  /* grades de 2 e 3 viram 1 coluna; */
+  .grid-2, .grid-3 { grid-template-columns: minmax(0, 1fr); }
+  /* IMC ao vivo em 1 coluna; */
+  .imc-live { grid-template-columns: minmax(0, 1fr); }
+  /* prévia em 1 coluna; */
+  .thumb-body { grid-template-columns: minmax(0, 1fr); }
+  /* coluna verde da prévia em linha; */
+  .thumb-side { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px; }
+  /* esconde régua e etapas da prévia; */
+  .t-gauge, .t-steps { display: none; }
+  /* linha de frequência com 2 colunas; */
+  .freq-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  /* nome do esporte em cima, ocupando a linha toda; */
+  .freq-row strong { grid-column: 1 / -1; }
+  /* selects com largura total; */
+  .freq-row select { width: 100%; }
+  /* dias da semana menores; */
+  .week div { font-size: .7rem; padding: 6px 0; }
+  /* botões ocupam a largura... */
+  .actions { justify-content: stretch; }
+  /* ...dividindo o espaço igualmente; */
+  .actions .btn { flex: 1 1 auto; }
+  /* barra em 1 coluna; */
+  .rail-inner { grid-template-columns: minmax(0, 1fr); }
+  /* esconde o "Olá, Nome". */
+  .who { display: none !important; }
+/* Fim do @media 520px. */
+}
+/* Se a pessoa pediu no sistema para reduzir animações: */
+@media (prefers-reduced-motion: reduce) {
+  /* desliga todas as animações e transições; */
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  /* a janela da prévia não fica girada. */
+  .thumb-window { transform: none; }
+/* Fim do @media. */
+}
+/* Etiquetas soltas dentro de cartões: alinhadas à esquerda. */
+.card > .tag { justify-self: start; }
+/* Cartão do IMC: conteúdo começa no topo. */
+.s-imc { align-content: start; }
+/* Cartão de esportes: conteúdo começa no topo. */
+.s-sports { align-content: start; }
+/* Botões soltos dentro de cartões: alinhados à esquerda. */
+.card > .btn { justify-self: start; }
+
+/* ---------- exemplos de antes e depois ---------- */
+/* Seção de exemplos: título, aviso e grade. */
+.landing-examples { display: grid; gap: 14px; }
+/* Título da seção, no mesmo tamanho de "Como o plano é montado". */
+.landing-examples h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); }
+/* Grade: quantas colunas couberem com pelo menos 260px cada. */
+.examples { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 8px; }
+/* Cada exemplo: cartão com fundo papel, margem interna de 10px, cantos bem redondos, um contorno fininho (box-shadow 0 0 0 1px) e sombra suave embaixo; transition anima o efeito do mouse. */
+.example { margin: 0; padding: 10px; background: var(--paper); border-radius: 20px; box-shadow: 0 0 0 1px var(--line), 0 18px 36px -22px rgba(29,40,32,.45); display: flex; flex-direction: column; transition: transform .2s ease, box-shadow .2s ease; }
+/* Ao passar o mouse: o cartão sobe 3px e a sombra fica mais forte. */
+.example:hover { transform: translateY(-3px); box-shadow: 0 0 0 1px var(--line), 0 24px 44px -22px rgba(29,40,32,.55); }
+/* Foto: largura total, altura fixa, cantos arredondados (menores que os do cartão, para acompanhar a curva) e object-fit cover para não distorcer. */
+.example img { display: block; width: 100%; height: 280px; object-fit: cover; object-position: center top; border-radius: 12px; }
+/* Legenda: título e texto empilhados. */
+.example figcaption { padding: 12px 6px 4px; display: grid; gap: 4px; }
+/* Título da legenda. */
+.example figcaption strong { font-family: var(--f-display); font-size: 1.1rem; }
+/* Texto da legenda, apagado. */
+.example figcaption span { font-size: .9rem; color: var(--muted); }
+/* Celular: fotos um pouco mais baixas. */
+@media (max-width: 520px) { .example img { height: 240px; } }

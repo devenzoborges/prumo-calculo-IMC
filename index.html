@@ -1,0 +1,713 @@
+<!DOCTYPE html> 
+
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prumo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Prumo: IMC, treino, rotina e dieta montados a partir do seu dia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+
+
+<header class="topbar">
+ 
+  <div class="topbar-inner">
+    <!-- Botão do logo: data-go=inicio faz o app.js voltar à abertura; aria-label é o nome lido pelo leitor de tela. -->
+    <button class="brand" type="button" data-go="inicio" aria-label="Prumo, voltar ao início">
+      <!-- Desenho do prumo em SVG: uma linha (o fio) e um losango (o peso); aria-hidden esconde do leitor de tela. -->
+      <svg class="brand-mark" viewBox="0 0 24 32" aria-hidden="true"><line x1="12" y1="0" x2="12" y2="14" stroke="currentColor" stroke-width="2"/><path d="M12 14 L20 22 L12 32 L4 22 Z" fill="currentColor"/></svg>
+      <!-- Nome da marca. -->
+      <span>Prumo</span>
+    <!-- Fim do botão do logo. -->
+    </button>
+    <!-- Área dos botões da direita do topo. -->
+    <div class="topbar-actions">
+      <!-- Espaço do "Olá, Nome"; começa escondido (hidden) e o app.js mostra quando alguém entra. -->
+      <span class="who" id="who" hidden></span>
+      <!-- Botão "Entrar" do topo (id usado no app.js). -->
+      <button class="btn btn-ghost" type="button" id="btn-topo-entrar">Entrar</button>
+      <!-- Botão "Sair"; começa escondido. -->
+      <button class="btn btn-ghost" type="button" id="btn-sair" hidden>Sair</button>
+    <!-- Fim da área de botões. -->
+    </div>
+  <!-- Fim da caixa interna. -->
+  </div>
+<!-- Fim da barra do topo. -->
+</header>
+
+<!-- Conteúdo principal da página. -->
+<main>
+
+<!-- ============ ABERTURA ============ -->
+<!-- Tela de abertura (id view-inicio, o app.js mostra/esconde). -->
+<section class="view landing" id="view-inicio">
+  <!-- Parte de cima da abertura: texto à esquerda e prévia à direita. -->
+  <div class="landing-hero">
+    <!-- Bloco do texto. -->
+    <div class="hero-copy">
+      <!-- Frase pequena acima do título. -->
+      <p class="eyebrow">Equilíbrio e saúde, do acordar ao dormir</p>
+      <!-- Título principal; <em> destaca a palavra "prumo" (o CSS põe um marca-texto amarelo). -->
+      <h1>Seu corpo no <em>prumo</em>.</h1>
+      <!-- Parágrafo de apresentação. -->
+      <p class="lede">Você conta peso, altura, esportes e rotina. O Prumo calcula seu IMC, monta um treino de academia quando você ainda não faz, encaixa tudo nos seus horários e fecha com uma dieta sem os alimentos que você não gosta.</p>
+      <!-- Área dos botões de ação. -->
+      <div class="hero-cta">
+        <!-- Botão "Criar meu plano": data-auth=criar abre a etapa de conta na aba de cadastro. -->
+        <button class="btn btn-primary btn-lg" type="button" data-auth="criar">Criar meu plano</button>
+        <!-- Botão "Já tenho conta": data-auth=entrar abre a aba de login. -->
+        <button class="btn btn-line btn-lg" type="button" data-auth="entrar">Já tenho conta</button>
+      <!-- Fim da área de botões. -->
+      </div>
+      <!-- Aviso pequeno sobre tempo e privacidade. -->
+      <p class="fine">Leva uns 5 minutos. Seus dados ficam só neste navegador.</p>
+    <!-- Fim do bloco do texto. -->
+    </div>
+
+    <!-- thumb inicial: prévia do painel -->
+    <!-- Desenho feito só com HTML e CSS (não é imagem). Para mudar o exemplo, troque os textos abaixo. -->
+    <!-- <figure>: a prévia do painel; aria-label descreve a figura para leitor de tela. -->
+    <figure class="thumb" aria-label="Prévia do painel do Prumo">
+      <!-- A "janela" desenhada; aria-hidden porque é só decoração. -->
+      <div class="thumb-window" aria-hidden="true">
+        <!-- Barrinha da janela: três bolinhas (<i>) e o título. -->
+        <div class="thumb-bar"><i></i><i></i><i></i><span>prumo · meu plano</span></div>
+        <!-- Corpo da janela. -->
+        <div class="thumb-body">
+          <!-- Coluna verde da esquerda. -->
+          <div class="thumb-side">
+            <!-- Rótulo "IMC". -->
+            <span class="t-label">IMC</span>
+            <!-- Valor de exemplo do IMC. -->
+            <strong class="t-imc">23,4</strong>
+            <!-- Etiqueta de exemplo. -->
+            <span class="t-pill">Peso adequado</span>
+            <!-- Régua do IMC; o <b> é o marcador, posicionado a 33% da largura. -->
+            <div class="t-gauge"><b style="left:33%"></b></div>
+            <!-- Lista de etapas de exemplo. -->
+            <ul class="t-steps">
+              <!-- Itens: os com classe done aparecem concluídos, o on aparece como atual. -->
+              <li class="done">Conta</li><li class="done">Esportes</li><li class="done">Treino</li><li class="on">Rotina</li><li>Dieta</li>
+            <!-- Fim da lista. -->
+            </ul>
+          <!-- Fim da coluna verde. -->
+          </div>
+          <!-- Coluna principal da prévia. -->
+          <div class="thumb-main">
+            <!-- Rótulo "Seu dia". -->
+            <span class="t-label">Seu dia</span>
+            <!-- Lista ordenada com a agenda de exemplo. -->
+            <ol class="t-day">
+              <!-- Evento: acordar às 06:30 (<time> marca horários). -->
+              <li><time>06:30</time>Acordar</li>
+              <!-- Evento: café da manhã. -->
+              <li><time>07:00</time>Café: tapioca, ovos e mamão</li>
+              <!-- Evento de treino, destacado com a classe hl. -->
+              <li class="hl"><time>18:30</time>Treino A · inferiores</li>
+              <!-- Evento: jantar. -->
+              <li><time>20:00</time>Jantar: arroz, feijão e frango</li>
+              <!-- Evento: dormir. -->
+              <li><time>23:00</time>Dormir · 7h30 de sono</li>
+            <!-- Fim da agenda de exemplo. -->
+            </ol>
+            <!-- Etiquetas de exemplo (esportes e restrição). -->
+            <div class="t-chips"><span>Futebol 2x</span><span>Academia 3x</span><span>Sem peixe</span></div>
+          <!-- Fim da coluna principal. -->
+          </div>
+        <!-- Fim do corpo da janela. -->
+        </div>
+      <!-- Fim da janela. -->
+      </div>
+      <!-- Legenda da figura. -->
+      <figcaption>O painel que você recebe no final</figcaption>
+    <!-- Fim da figura. -->
+    </figure>
+  <!-- Fim da parte de cima da abertura. -->
+  </div>
+
+  <!-- Seção "Como o plano é montado". -->
+  <div class="landing-flow">
+    <!-- Título da seção. -->
+    <h2>Como o plano é montado</h2>
+    <!-- Lista ordenada dos passos (o CSS numera 01, 02...). -->
+    <ol class="flow">
+      <!-- Passo: conta e IMC. -->
+      <li><strong>Conta e IMC</strong><span>Peso e altura no cadastro. O IMC aparece enquanto você digita.</span></li>
+      <!-- Passo: esportes. -->
+      <li><strong>Seus esportes</strong><span>Marque quantos quiser e a frequência de cada um.</span></li>
+      <!-- Passo: treino pronto. -->
+      <li><strong>Treino pronto</strong><span>Não faz musculação? Já deixamos um treino de academia montado.</span></li>
+      <!-- Passo: rotina e sono. -->
+      <li><strong>Rotina e sono</strong><span>Da hora que acorda até a hora que dorme, para encaixar treino e refeições.</span></li>
+      <!-- Passo: academias perto. -->
+      <li><strong>Academias perto</strong><span>Quer um esporte novo? Busca pela sua cidade e bairro, com contato.</span></li>
+      <!-- Passo: dieta. -->
+      <li><strong>Dieta do seu gosto</strong><span>Escreva o que não come. O cardápio é montado sem esses alimentos.</span></li>
+    <!-- Fim da lista de passos. -->
+    </ol>
+  <!-- Fim da seção. -->
+  </div>
+
+  <!-- Seção de exemplos de antes e depois (fotos na pasta img). -->
+  <div class="landing-examples">
+    <!-- Título da seção. -->
+    <h2>Exemplos de antes e depois</h2>
+    <!-- Aviso: são imagens ilustrativas, não resultados de pessoas que usaram o Prumo. -->
+    <p class="sub">Imagens ilustrativas de mudanças com treino e dieta. Não são resultados de usuários do Prumo.</p>
+    <!-- Grade com os três exemplos. -->
+    <div class="examples">
+      <!-- Exemplo 1; loading=lazy só carrega a imagem quando ela aparece na tela. -->
+      <figure class="example">
+        <!-- Foto de antes e depois (esquerda = antes, direita = depois). -->
+        <img src="img/exemplo-1.jpg" alt="Rapaz sem camisa antes, magro e sem definição, e depois, com mais músculos e abdômen definido" loading="lazy">
+        <!-- Legenda do exemplo. -->
+        <figcaption><strong>Ganhar massa e definir</strong><span>Treino de força com calorias e proteína suficientes.</span></figcaption>
+      <!-- Fim do exemplo 1. -->
+      </figure>
+      <!-- Exemplo 2. -->
+      <figure class="example">
+        <!-- Foto de antes e depois. -->
+        <img src="img/exemplo-2.jpg" alt="Homem antes, com pouco tônus muscular, e depois, mais definido, na praia" loading="lazy">
+        <!-- Legenda do exemplo. -->
+        <figcaption><strong>Perder gordura e definir</strong><span>Déficit calórico leve com treino de força.</span></figcaption>
+      <!-- Fim do exemplo 2. -->
+      </figure>
+      <!-- Exemplo 3. -->
+      <figure class="example">
+        <!-- Foto de antes e depois. -->
+        <img src="img/exemplo-3.jpg" alt="Homem antes, com barriga, e depois, mais magro e com abdômen aparente" loading="lazy">
+        <!-- Legenda do exemplo. -->
+        <figcaption><strong>Perder gordura</strong><span>Dieta ajustada à rotina e treino regular.</span></figcaption>
+      <!-- Fim do exemplo 3. -->
+      </figure>
+    <!-- Fim da grade. -->
+    </div>
+  <!-- Fim da seção de exemplos. -->
+  </div>
+<!-- Fim da tela de abertura. -->
+</section>
+
+<!-- ============ APP ============ -->
+<!-- Tela do app (id view-app); começa escondida. -->
+<section class="view app" id="view-app" hidden>
+  <!-- Barra verde: IMC da pessoa + lista de etapas (a lista é montada pelo app.js) -->
+  <!-- Barra lateral (aside). -->
+  <aside class="rail">
+    <!-- Caixa interna da barra (fica "grudada" ao rolar). -->
+    <div class="rail-inner">
+      <!-- Quadro do IMC na barra. -->
+      <div class="rail-imc" id="rail-imc">
+        <!-- Rótulo "Seu IMC". -->
+        <span class="label">Seu IMC</span>
+        <!-- Número do IMC (o app.js preenche). -->
+        <strong id="rail-imc-num">--</strong>
+        <!-- Categoria do IMC (o app.js preenche e muda a cor). -->
+        <span class="pill" id="rail-imc-cat">Preencha peso e altura</span>
+      <!-- Fim do quadro do IMC. -->
+      </div>
+      <!-- Lista vazia de etapas; o app.js monta os itens (função paintSteps). -->
+      <ol class="steps" id="steps"></ol>
+      <!-- Aviso de que é uma orientação geral. -->
+      <p class="rail-note">O Prumo dá uma orientação geral. Para dieta e treino individualizados, procure um nutricionista e um profissional de educação física.</p>
+    <!-- Fim da caixa interna. -->
+    </div>
+  <!-- Fim da barra lateral. -->
+  </aside>
+
+  <!-- Área à direita onde aparecem as etapas. -->
+  <div class="stage">
+
+    <!-- Cada <section class="panel" data-step="..."> é uma etapa. -->
+    <!-- CONTA / LOGIN -->
+    <!-- Painel da etapa "conta". -->
+    <section class="panel" data-step="conta">
+      <!-- Cabeçalho do painel. -->
+      <header class="panel-head">
+        <!-- Texto pequeno "Etapa 1". -->
+        <p class="kicker">Etapa 1</p>
+        <!-- Título; o app.js troca o texto entre "Crie" e "Entre". -->
+        <h2 id="conta-title">Crie sua conta</h2>
+      <!-- Fim do cabeçalho. -->
+      </header>
+      <!-- Grupo de abas (role=tablist para acessibilidade). -->
+      <div class="tabs" role="tablist">
+        <!-- Aba "Criar conta", começa selecionada. -->
+        <button role="tab" type="button" class="tab" id="tab-criar" aria-selected="true">Criar conta</button>
+        <!-- Aba "Entrar". -->
+        <button role="tab" type="button" class="tab" id="tab-entrar" aria-selected="false">Entrar</button>
+      <!-- Fim das abas. -->
+      </div>
+
+      <!-- Formulário de cadastro; novalidate desliga as mensagens do navegador (o app.js mostra as próprias). -->
+      <form id="form-criar" class="form" novalidate>
+        <!-- Grade de 2 colunas. -->
+        <div class="grid-2">
+          <!-- Campo nome; autocomplete sugere o primeiro nome salvo no navegador. -->
+          <label class="field"><span>Nome</span><input id="c-nome" name="nome" autocomplete="given-name" required placeholder="Como quer ser chamado"></label>
+          <!-- Campo e-mail (type=email mostra o teclado com @ no celular). -->
+          <label class="field"><span>E-mail</span><input id="c-email" name="email" type="email" autocomplete="email" required placeholder="voce@email.com"></label>
+          <!-- Campo senha (type=password esconde o que é digitado). -->
+          <label class="field"><span>Senha</span><input id="c-senha" name="senha" type="password" autocomplete="new-password" minlength="6" required placeholder="Mínimo 6 caracteres"></label>
+          <!-- Campo idade (só números, de 14 a 100). -->
+          <label class="field"><span>Idade</span><input id="c-idade" name="idade" type="number" inputmode="numeric" min="14" max="100" required placeholder="Ex.: 28"></label>
+        <!-- Fim da grade. -->
+        </div>
+        <!-- Grupo de opções do sexo (fieldset agrupa os rádios). -->
+        <fieldset class="field">
+          <!-- Título do grupo, com explicação em <small>. -->
+          <legend>Sexo biológico <small>(usado no cálculo de calorias)</small></legend>
+          <!-- Caixa dos botões segmentados. -->
+          <div class="seg">
+            <!-- Rádio Feminino (mesmo name=sexo, então só um pode ser marcado). -->
+            <label><input type="radio" name="sexo" value="f" id="c-sexo-f"><span>Feminino</span></label>
+            <!-- Rádio Masculino. -->
+            <label><input type="radio" name="sexo" value="m" id="c-sexo-m"><span>Masculino</span></label>
+          <!-- Fim da caixa. -->
+          </div>
+        <!-- Fim do grupo. -->
+        </fieldset>
+
+        <!-- Caixa do IMC. -->
+        <div class="imc-box">
+          <!-- Grade de 2 colunas para peso e altura. -->
+          <div class="grid-2">
+            <!-- Campo peso: aceita decimal (step 0.1), de 30 a 300. -->
+            <label class="field"><span>Peso (kg)</span><input id="c-peso" name="peso" type="number" inputmode="decimal" step="0.1" min="30" max="300" required placeholder="Ex.: 72,5"></label>
+            <!-- Campo altura em cm, de 120 a 230. -->
+            <label class="field"><span>Altura (cm)</span><input id="c-altura" name="altura" type="number" inputmode="numeric" min="120" max="230" required placeholder="Ex.: 175"></label>
+          <!-- Fim da grade. -->
+          </div>
+          <!-- Área do IMC ao vivo; aria-live=polite faz o leitor de tela anunciar mudanças. -->
+          <div class="imc-live" id="imc-live" aria-live="polite">
+            <!-- Bloco com número e categoria. -->
+            <div class="imc-read">
+              <!-- Rótulo "IMC". -->
+              <span class="label">IMC</span>
+              <!-- Número do IMC (o app.js preenche). -->
+              <strong id="imc-num">--</strong>
+              <!-- Categoria do IMC. -->
+              <span id="imc-cat" class="imc-cat">Digite peso e altura</span>
+            <!-- Fim do bloco. -->
+            </div>
+            <!-- Régua colorida (decorativa). -->
+            <div class="gauge" aria-hidden="true">
+              <!-- Faixa com 4 cores: abaixo, adequado, sobrepeso e obesidade. -->
+              <div class="gauge-track"><i class="g-low"></i><i class="g-ok"></i><i class="g-over"></i><i class="g-ob"></i></div>
+              <!-- Marcador que o app.js move conforme o IMC. -->
+              <b class="gauge-pin" id="imc-pin"></b>
+              <!-- Números de referência embaixo da régua. -->
+              <div class="gauge-scale"><span>18,5</span><span>25</span><span>30</span></div>
+            <!-- Fim da régua. -->
+            </div>
+            <!-- Parágrafo da dica (o app.js preenche). -->
+            <p id="imc-tip" class="imc-tip"></p>
+          <!-- Fim da área do IMC ao vivo. -->
+          </div>
+        <!-- Fim da caixa do IMC. -->
+        </div>
+        <!-- Mensagem de erro; role=alert faz o leitor de tela anunciar na hora. -->
+        <p class="form-error" id="criar-erro" role="alert"></p>
+        <!-- Botão de enviar o cadastro. -->
+        <div class="actions"><button class="btn btn-primary" type="submit">Criar conta e continuar</button></div>
+      <!-- Fim do formulário de cadastro. -->
+      </form>
+
+      <!-- Formulário de login; começa escondido. -->
+      <form id="form-entrar" class="form" novalidate hidden>
+        <!-- Grade de 2 colunas. -->
+        <div class="grid-2">
+          <!-- Campo e-mail do login. -->
+          <label class="field"><span>E-mail</span><input id="e-email" type="email" autocomplete="email" required></label>
+          <!-- Campo senha do login. -->
+          <label class="field"><span>Senha</span><input id="e-senha" type="password" autocomplete="current-password" required></label>
+        <!-- Fim da grade. -->
+        </div>
+        <!-- Campo opcional de peso de hoje (atualiza o IMC). -->
+        <label class="field narrow"><span>Peso de hoje (kg) <small>opcional, atualiza o IMC</small></span><input id="e-peso" type="number" step="0.1" inputmode="decimal" min="30" max="300"></label>
+        <!-- Mensagem de erro do login. -->
+        <p class="form-error" id="entrar-erro" role="alert"></p>
+        <!-- Botão "Entrar". -->
+        <div class="actions"><button class="btn btn-primary" type="submit">Entrar</button></div>
+      <!-- Fim do formulário de login. -->
+      </form>
+    <!-- Fim do painel da conta. -->
+    </section>
+
+    <!-- ESPORTES -->
+    <!-- Painel da etapa "esportes"; começa escondido. -->
+    <section class="panel" data-step="esportes" hidden>
+      <!-- Cabeçalho. -->
+      <header class="panel-head">
+        <!-- "Etapa 2". -->
+        <p class="kicker">Etapa 2</p>
+        <!-- Pergunta. -->
+        <h2>Quais esportes você faz?</h2>
+        <!-- Explicação. -->
+        <p class="sub">Marque todos que pratica hoje. Pode ser mais de um.</p>
+      <!-- Fim do cabeçalho. -->
+      </header>
+      <!-- Área dos chips de esporte (o app.js cria os botões). -->
+      <div class="chips" id="sport-chips"></div>
+      <!-- Área das frequências (o app.js cria). -->
+      <div id="freq-list" class="freq-list"></div>
+      <!-- Mensagem de erro dos esportes. -->
+      <p class="form-error" id="esportes-erro" role="alert"></p>
+      <!-- Área dos botões. -->
+      <div class="actions">
+        <!-- Botão "Voltar" (data-back). -->
+        <button class="btn btn-line" type="button" data-back>Voltar</button>
+        <!-- Botão "Continuar". -->
+        <button class="btn btn-primary" type="button" id="btn-esportes">Continuar</button>
+      <!-- Fim da área dos botões. -->
+      </div>
+    <!-- Fim do painel de esportes. -->
+    </section>
+
+    <!-- TREINO PRONTO -->
+    <!-- Painel da etapa "treino". -->
+    <section class="panel" data-step="treino" hidden>
+      <!-- Cabeçalho. -->
+      <header class="panel-head">
+        <!-- "Etapa 3". -->
+        <p class="kicker">Etapa 3</p>
+        <!-- Título. -->
+        <h2>Fiz um treino de academia pra você!</h2>
+        <!-- Explicação. -->
+        <p class="sub">Você não marcou musculação, então montamos um treino para iniciantes com base no seu IMC.</p>
+      <!-- Fim do cabeçalho. -->
+      </header>
+      <!-- Bloco da pergunta de dias. -->
+      <div class="field">
+        <!-- Pergunta. -->
+        <span class="field-title">Quantos dias por semana dá pra ir?</span>
+        <!-- Botões segmentados de dias (id usado no app.js). -->
+        <div class="seg" id="treino-dias">
+          <!-- Opção 2 dias. -->
+          <label><input type="radio" name="dias" value="2"><span>2 dias</span></label>
+          <!-- Opção 3 dias (marcada por padrão). -->
+          <label><input type="radio" name="dias" value="3" checked><span>3 dias</span></label>
+          <!-- Opção 4 dias. -->
+          <label><input type="radio" name="dias" value="4"><span>4 dias</span></label>
+        <!-- Fim dos botões. -->
+        </div>
+      <!-- Fim do bloco. -->
+      </div>
+      <!-- Área onde o app.js coloca o treino montado. -->
+      <div id="treino-out"></div>
+      <!-- Caixa verde da pergunta final. -->
+      <div class="ask">
+        <!-- Pergunta se quer aplicar o treino. -->
+        <p class="ask-q">Fiz um treino de academia pra você! Quer que eu aplique na sua rotina?</p>
+        <!-- Área dos botões. -->
+        <div class="actions">
+          <!-- Botão "Voltar". -->
+          <button class="btn btn-line" type="button" data-back>Voltar</button>
+          <!-- Botão "Agora não". -->
+          <button class="btn btn-line" type="button" id="treino-nao">Agora não</button>
+          <!-- Botão "Sim, aplica". -->
+          <button class="btn btn-primary" type="button" id="treino-sim">Sim, aplica na minha rotina</button>
+        <!-- Fim da área dos botões. -->
+        </div>
+      <!-- Fim da caixa verde. -->
+      </div>
+    <!-- Fim do painel de treino. -->
+    </section>
+
+    <!-- FOCO (opcional) -->
+    <!-- Painel da etapa "foco". -->
+    <section class="panel" data-step="foco" hidden>
+      <!-- Cabeçalho. -->
+      <header class="panel-head">
+        <!-- "Opcional". -->
+        <p class="kicker">Opcional</p>
+        <!-- Pergunta. -->
+        <h2>De qual parte do corpo você mais quer perder gordura?</h2>
+        <!-- Explicação. -->
+        <p class="sub">Pode pular. Se escolher, reforçamos exercícios para essa região.</p>
+      <!-- Fim do cabeçalho. -->
+      </header>
+      <!-- Área dos chips de região (o app.js cria). -->
+      <div class="chips" id="foco-chips"></div>
+      <!-- Nota explicando que não existe perda de gordura localizada. -->
+      <p class="note">Gordura localizada não sai só treinando a região: ela diminui com o corpo todo, pelo déficit de calorias. O que o treino faz é fortalecer e dar forma à área enquanto isso acontece.</p>
+      <!-- Área dos botões. -->
+      <div class="actions">
+        <!-- Botão "Voltar". -->
+        <button class="btn btn-line" type="button" data-back>Voltar</button>
+        <!-- Botão "Pular". -->
+        <button class="btn btn-line" type="button" id="foco-pular">Pular</button>
+        <!-- Botão "Continuar". -->
+        <button class="btn btn-primary" type="button" id="btn-foco">Continuar</button>
+      <!-- Fim da área dos botões. -->
+      </div>
+    <!-- Fim do painel de foco. -->
+    </section>
+
+    <!-- ROTINA -->
+    <!-- Painel da etapa "rotina". -->
+    <section class="panel" data-step="rotina" hidden>
+      <!-- Cabeçalho. -->
+      <header class="panel-head">
+        <!-- "Etapa 4". -->
+        <p class="kicker">Etapa 4</p>
+        <!-- Pergunta. -->
+        <h2>Como é o seu dia, da manhã à noite?</h2>
+        <!-- Explicação. -->
+        <p class="sub">Use um dia útil comum.</p>
+      <!-- Fim do cabeçalho. -->
+      </header>
+      <!-- Formulário da rotina. -->
+      <form id="form-rotina" class="form" novalidate>
+        <!-- Grade de 3 colunas. -->
+        <div class="grid-3">
+          <!-- Horário de acordar (type=time mostra o seletor de hora). -->
+          <label class="field"><span>Acordo às</span><input type="time" id="r-acorda" value="06:30" required></label>
+          <!-- Horário de início do trabalho/estudo. -->
+          <label class="field"><span>Começo a trabalhar/estudar</span><input type="time" id="r-inicio" value="08:00"></label>
+          <!-- Horário do almoço. -->
+          <label class="field"><span>Almoço às</span><input type="time" id="r-almoco" value="12:00"></label>
+          <!-- Horário de fim do trabalho/estudo. -->
+          <label class="field"><span>Termino às</span><input type="time" id="r-fim" value="17:30"></label>
+          <!-- Horário de dormir. -->
+          <label class="field"><span>Durmo às</span><input type="time" id="r-dorme" value="23:00" required></label>
+          <!-- Campo de deslocamento. -->
+          <label class="field"><span>Tempo de deslocamento</span>
+            <!-- Lista de opções; o value é em minutos (0, 20, 45 ou 75); 45 vem marcado. -->
+            <select id="r-desloc"><option value="0">Trabalho em casa</option><option value="20">Até 20 min</option><option value="45" selected>20 a 45 min</option><option value="75">Mais de 45 min</option></select>
+          <!-- Fim do campo. -->
+          </label>
+        <!-- Fim da grade. -->
+        </div>
+        <!-- Grupo: tipo de atividade. -->
+        <fieldset class="field">
+          <!-- Título do grupo. -->
+          <legend>No trabalho/estudo eu fico</legend>
+          <!-- Caixa de botões. -->
+          <div class="seg">
+            <!-- Opção sentado (padrão). -->
+            <label><input type="radio" name="ativ" value="sentado" checked><span>Sentado</span></label>
+            <!-- Opção em pé. -->
+            <label><input type="radio" name="ativ" value="pe"><span>Mais em pé</span></label>
+            <!-- Opção trabalho físico. -->
+            <label><input type="radio" name="ativ" value="pesado"><span>Trabalho físico</span></label>
+          <!-- Fim da caixa. -->
+          </div>
+        <!-- Fim do grupo. -->
+        </fieldset>
+        <!-- Grupo: melhor horário de treino. -->
+        <fieldset class="field">
+          <!-- Título do grupo. -->
+          <legend>Melhor horário para treinar</legend>
+          <!-- Caixa de botões. -->
+          <div class="seg">
+            <!-- Opção manhã. -->
+            <label><input type="radio" name="hora" value="manha"><span>Antes do trabalho</span></label>
+            <!-- Opção almoço. -->
+            <label><input type="radio" name="hora" value="almoco"><span>Na hora do almoço</span></label>
+            <!-- Opção noite (padrão). -->
+            <label><input type="radio" name="hora" value="noite" checked><span>Depois do trabalho</span></label>
+            <!-- Opção fins de semana. -->
+            <label><input type="radio" name="hora" value="fds"><span>Fins de semana</span></label>
+          <!-- Fim da caixa. -->
+          </div>
+        <!-- Fim do grupo. -->
+        </fieldset>
+        <!-- Grupo: café da manhã. -->
+        <fieldset class="field">
+          <!-- Título do grupo. -->
+          <legend>Costumo tomar café da manhã</legend>
+          <!-- Caixa de botões. -->
+          <div class="seg">
+            <!-- Opção sim (padrão). -->
+            <label><input type="radio" name="cafe" value="sim" checked><span>Sim</span></label>
+            <!-- Opção não. -->
+            <label><input type="radio" name="cafe" value="nao"><span>Não, pulo</span></label>
+          <!-- Fim da caixa. -->
+          </div>
+        <!-- Fim do grupo. -->
+        </fieldset>
+        <!-- Área do cálculo de sono (o app.js preenche). -->
+        <div id="sono-out" class="sono" aria-live="polite"></div>
+        <!-- Área dos botões. -->
+        <div class="actions">
+          <!-- Botão "Voltar". -->
+          <button class="btn btn-line" type="button" data-back>Voltar</button>
+          <!-- Botão "Continuar" (type=submit envia o formulário). -->
+          <button class="btn btn-primary" type="submit">Continuar</button>
+        <!-- Fim da área dos botões. -->
+        </div>
+      <!-- Fim do formulário da rotina. -->
+      </form>
+    <!-- Fim do painel da rotina. -->
+    </section>
+
+    <!-- NOVO ESPORTE / ACADEMIAS -->
+    <!-- Painel da etapa "novo". -->
+    <section class="panel" data-step="novo" hidden>
+      <!-- Cabeçalho. -->
+      <header class="panel-head">
+        <!-- "Etapa 5". -->
+        <p class="kicker">Etapa 5</p>
+        <!-- Pergunta. -->
+        <h2>Quer começar outro esporte?</h2>
+        <!-- Explicação. -->
+        <p class="sub">Diga onde você mora e mostramos os lugares perto, com o contato deles.</p>
+      <!-- Fim do cabeçalho. -->
+      </header>
+      <!-- Botões Sim/Não. -->
+      <div class="seg" id="novo-quer">
+        <!-- Opção sim. -->
+        <label><input type="radio" name="novo" value="sim"><span>Sim, quero</span></label>
+        <!-- Opção não (padrão). -->
+        <label><input type="radio" name="novo" value="nao" checked><span>Não por enquanto</span></label>
+      <!-- Fim dos botões. -->
+      </div>
+      <!-- Formulário de busca; começa escondido. -->
+      <form id="form-novo" class="form" novalidate hidden>
+        <!-- Grade de 3 colunas. -->
+        <div class="grid-3">
+          <!-- Lista de esportes (o app.js preenche as opções). -->
+          <label class="field"><span>Esporte</span><select id="n-esporte"></select></label>
+          <!-- Campo cidade. -->
+          <label class="field"><span>Cidade</span><input id="n-cidade" placeholder="Ex.: Campinas" autocomplete="address-level2" required></label>
+          <!-- Campo bairro. -->
+          <label class="field"><span>Bairro ou região</span><input id="n-bairro" placeholder="Ex.: Cambuí" required></label>
+        <!-- Fim da grade. -->
+        </div>
+        <!-- Mensagem de erro. -->
+        <p class="form-error" id="novo-erro" role="alert"></p>
+        <!-- Botão de buscar. -->
+        <div class="actions"><button class="btn btn-accent" type="submit">Buscar lugares perto</button></div>
+        <!-- Área onde aparece o cartão de lugares. -->
+        <div id="novo-out"></div>
+      <!-- Fim do formulário de busca. -->
+      </form>
+      <!-- Área dos botões. -->
+      <div class="actions">
+        <!-- Botão "Voltar". -->
+        <button class="btn btn-line" type="button" data-back>Voltar</button>
+        <!-- Botão "Continuar". -->
+        <button class="btn btn-primary" type="button" id="btn-novo">Continuar</button>
+      <!-- Fim da área dos botões. -->
+      </div>
+    <!-- Fim do painel de novo esporte. -->
+    </section>
+
+    <!-- DIETA -->
+    <!-- Painel da etapa "dieta". -->
+    <section class="panel" data-step="dieta" hidden>
+      <!-- Cabeçalho. -->
+      <header class="panel-head">
+        <!-- "Etapa 6". -->
+        <p class="kicker">Etapa 6</p>
+        <!-- Título. -->
+        <h2>Sua dieta, sem o que você não gosta</h2>
+      <!-- Fim do cabeçalho. -->
+      </header>
+      <!-- Formulário da dieta. -->
+      <form id="form-dieta" class="form" novalidate>
+        <!-- Grupo: objetivo. -->
+        <fieldset class="field">
+          <!-- Título do grupo. -->
+          <legend>Objetivo</legend>
+          <!-- Caixa de botões. -->
+          <div class="seg">
+            <!-- Opção perder gordura (padrão). -->
+            <label><input type="radio" name="obj" value="perder" checked><span>Perder gordura</span></label>
+            <!-- Opção manter. -->
+            <label><input type="radio" name="obj" value="manter"><span>Manter o peso</span></label>
+            <!-- Opção ganhar massa. -->
+            <label><input type="radio" name="obj" value="ganhar"><span>Ganhar massa</span></label>
+          <!-- Fim da caixa. -->
+          </div>
+        <!-- Fim do grupo. -->
+        </fieldset>
+        <!-- Grupo: restrições. -->
+        <fieldset class="field">
+          <!-- Título do grupo. -->
+          <legend>Restrições</legend>
+          <!-- Chips pequenos (caixas de marcar, pode marcar várias). -->
+          <div class="chips small">
+            <!-- Restrição vegetariano. -->
+            <label class="chip"><input type="checkbox" name="restr" value="vegetariano"><span>Vegetariano</span></label>
+            <!-- Restrição vegano. -->
+            <label class="chip"><input type="checkbox" name="restr" value="vegano"><span>Vegano</span></label>
+            <!-- Restrição sem lactose. -->
+            <label class="chip"><input type="checkbox" name="restr" value="lactose"><span>Sem lactose</span></label>
+            <!-- Restrição sem glúten. -->
+            <label class="chip"><input type="checkbox" name="restr" value="gluten"><span>Sem glúten</span></label>
+          <!-- Fim dos chips. -->
+          </div>
+        <!-- Fim do grupo. -->
+        </fieldset>
+        <!-- Campo "não gosto". -->
+        <label class="field"><span>O que você não gosta de comer?</span>
+          <!-- Área de texto de 3 linhas. -->
+          <textarea id="d-nao" rows="3" placeholder="Ex.: peixe, beterraba, cuscuz, queijo"></textarea>
+          <!-- Dica de preenchimento. -->
+          <small class="hint">Separe por vírgula. Vale palavra geral também, como "peixe", "carne vermelha" ou "laticínios".</small>
+        <!-- Fim do campo. -->
+        </label>
+        <!-- Área dos botões. -->
+        <div class="actions">
+          <!-- Botão "Voltar". -->
+          <button class="btn btn-line" type="button" data-back>Voltar</button>
+          <!-- Botão "Montar minha dieta". -->
+          <button class="btn btn-accent" type="submit">Montar minha dieta</button>
+        <!-- Fim da área dos botões. -->
+        </div>
+      <!-- Fim do formulário da dieta. -->
+      </form>
+      <!-- Área onde o app.js coloca a dieta. -->
+      <div id="dieta-out"></div>
+      <!-- Área do botão final; começa escondida. -->
+      <div class="actions" id="dieta-fim" hidden>
+        <!-- Botão "Ver meu plano completo". -->
+        <button class="btn btn-primary" type="button" id="btn-dieta">Ver meu plano completo</button>
+      <!-- Fim da área. -->
+      </div>
+    <!-- Fim do painel da dieta. -->
+    </section>
+
+    <!-- RESUMO -->
+    <!-- Painel do resumo; panel-wide deixa ele mais largo. -->
+    <section class="panel panel-wide" data-step="resumo" hidden>
+      <!-- Cabeçalho. -->
+      <header class="panel-head">
+        <!-- "Seu plano". -->
+        <p class="kicker">Seu plano</p>
+        <!-- Título (o app.js troca para "Nome, seu dia no prumo"). -->
+        <h2 id="resumo-title">Tudo no prumo</h2>
+      <!-- Fim do cabeçalho. -->
+      </header>
+      <!-- Área onde o app.js monta o resumo. -->
+      <div id="resumo-out"></div>
+    <!-- Fim do painel do resumo. -->
+    </section>
+
+  <!-- Fim da área das etapas. -->
+  </div>
+<!-- Fim da tela do app. -->
+</section>
+<!-- Fim do conteúdo principal. -->
+</main>
+
+
+<footer class="foot">
+  <p>Prumo · orientação geral, não substitui avaliação médica, nutricional ou de educação física.</p>
+
+</footer>
+
+
+<script src="app.js"></script>
+</body>
+</html>
