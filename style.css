@@ -191,7 +191,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* Parte de cima: 2 colunas (texto e prévia), centralizadas na vertical. */
 .landing-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(32px, 5vw, 64px); align-items: center; }
 /* Frase acima do título: pequena, negrito, maiúsculas, espaçada, terracota. */
-.eyebrow { font-size: .82rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--terra); margin-bottom: 18px; }
+.eyebrow { font-size: .82rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--terra-txt); margin-bottom: 18px; }
 /* Título da abertura: enorme (cresce com a tela), extra-negrito, verde. */
 .landing h1 { font-size: clamp(3rem, 7.2vw, 5.6rem); font-weight: 800; letter-spacing: -.035em; color: var(--green); }
 /* No tema escuro forçado o título fica na cor do texto. */
@@ -260,7 +260,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* Horário: dígitos alinhados, apagado. */
 .t-day time { font-variant-numeric: tabular-nums; color: var(--muted); font-weight: 600; }
 /* Evento destacado (treino): terracota. */
-.t-day .hl { color: var(--terra); font-weight: 700; }
+.t-day .hl { color: var(--terra-txt); font-weight: 700; }
 /* Etiquetas de exemplo: empurradas para o fim da coluna (margin-top auto). */
 .t-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
 /* Cada etiqueta: pílula verde clara. */
@@ -276,7 +276,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* Passos que não são o 1º da linha: borda e espaço à esquerda. */
 .flow li:not(:nth-child(3n+1)) { padding-left: 22px; border-left: 1px solid var(--line); }
 /* Número do passo gerado pelo contador (01, 02...), terracota. */
-.flow li::before { content: counter(f, decimal-leading-zero); font-family: var(--f-display); font-weight: 700; color: var(--terra); font-size: .95rem; font-variant-numeric: tabular-nums; }
+.flow li::before { content: counter(f, decimal-leading-zero); font-family: var(--f-display); font-weight: 700; color: var(--terra-txt); font-size: .95rem; font-variant-numeric: tabular-nums; }
 /* Nome do passo. */
 .flow strong { font-family: var(--f-display); font-size: 1.15rem; }
 /* Descrição do passo. */
@@ -364,7 +364,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* Cabeçalho do painel em grade. */
 .panel-head { display: grid; gap: 8px; }
 /* "Etapa X": pequeno, maiúsculas, terracota. */
-.kicker { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terra); }
+.kicker { font-size: .78rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--terra-txt); }
 /* Título da etapa: grande e extra-negrito. */
 .panel h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); font-weight: 800; }
 /* Subtítulo: apagado, até 60 caracteres por linha. */
@@ -414,7 +414,7 @@ input::placeholder, textarea::placeholder { color: color-mix(in srgb, var(--mute
 /* Dica pequena. */
 .hint { font-size: .85rem; color: var(--muted); }
 /* Mensagem de erro: terracota e negrito. */
-.form-error { color: var(--terra); font-weight: 600; font-size: .92rem; min-height: 0; }
+.form-error { color: var(--terra-txt); font-weight: 600; font-size: .92rem; min-height: 0; }
 /* Se a mensagem de erro estiver vazia, some. */
 .form-error:empty { display: none; }
 /* Área de botões: em linha, alinhada à direita. */
@@ -545,7 +545,7 @@ input::placeholder, textarea::placeholder { color: color-mix(in srgb, var(--mute
 /* Séries: sem itálico, apagadas, numa linha só. */
 .wo li em { font-style: normal; font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; font-size: .88rem; }
 /* Exercícios extras ganham " · foco" em terracota depois do nome. */
-.wo li.extra span::after { content: " · foco"; color: var(--terra); font-weight: 700; font-size: .8rem; }
+.wo li.extra span::after { content: " · foco"; color: var(--terra-txt); font-weight: 700; font-size: .8rem; }
 /* Rodapé do treino: empurrado para baixo, com borda em cima. */
 .wo-foot { margin-top: auto; padding: 10px 16px; font-size: .85rem; color: var(--muted); border-top: 1px solid var(--line); }
 /* Caixa da pergunta "aplicar treino": verde. */
@@ -667,7 +667,7 @@ input::placeholder, textarea::placeholder { color: color-mix(in srgb, var(--mute
 /* Bolinha de treino: terracota. */
 .timeline .k-treino .pt { background: var(--terra); border-color: var(--terra); }
 /* Título de treino: terracota. */
-.timeline .k-treino strong { color: var(--terra); }
+.timeline .k-treino strong { color: var(--terra-txt); }
 /* Bolinha de refeição: amarela. */
 .timeline .k-refeicao .pt { background: var(--butter); border-color: var(--butter); }
 /* Bolinha de sono: verde. */
@@ -1041,3 +1041,21 @@ input::placeholder, textarea::placeholder { color: color-mix(in srgb, var(--mute
 .example.entrando { animation: foto-entra .3s ease both; }
 /* Animação de entrada: começa transparente e 6px abaixo. */
 @keyframes foto-entra { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ---------- contraste do texto terracota (WCAG 1.4.3: mínimo 4,5:1 para texto pequeno) ---------- */
+/* No tema claro, o terracota original (#B0553A) dava só 4,0:1 no "ETAPA 1"; este tom mais escuro dá 5,0:1. */
+:root { --terra-txt: #9C4630; }
+/* No tema escuro o terracota original já passa (5,3:1), então o texto usa ele mesmo. */
+:root[data-theme="dark"] { --terra-txt: var(--terra); }
+/* Mesmo caso para o tema escuro automático, quando o JavaScript ainda não rodou. */
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --terra-txt: var(--terra); } }
+/* Protanopia, tema claro: âmbar mais escuro (5,3:1). */
+:root[data-cvd="protan"] { --terra-txt: #8A4E00; }
+/* Deuteranopia, tema claro: vermelhão mais escuro (4,8:1; antes era 3,6:1). */
+:root[data-cvd="deutan"] { --terra-txt: #A84400; }
+/* Tritanopia, tema claro: vermelho mais escuro (5,4:1). */
+:root[data-cvd="tritan"] { --terra-txt: #B0222A; }
+/* Acromatopsia: o "alerta" já é preto (ou branco no escuro), contraste máximo. */
+:root[data-cvd="acro"] { --terra-txt: var(--terra); }
+/* Em qualquer modo de daltonismo no tema escuro, as cores de alerta já passam. */
+:root[data-cvd][data-theme="dark"] { --terra-txt: var(--terra); }

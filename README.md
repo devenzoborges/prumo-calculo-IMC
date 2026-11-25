@@ -29,7 +29,7 @@ atv9/
 7. **Treino, rotina e dieta.** Listas de exercícios e alimentos ficam no começo do `app.js`. A partir das respostas, o site monta o treino, os horários do dia e um cardápio que tira os alimentos que a pessoa escreveu.
 8. **Salvar os dados.** Tudo vai para o `localStorage`, e quem volta ao site continua de onde parou.
 9. **Página inicial interativa.** Os passos de "Como o plano é montado" reagem ao mouse: uma barrinha cresce embaixo e o número sobe. Nos exemplos de antes e depois, botões filtram as fotos por Geral, Mulheres, Mais velhos e Jovens. Cada foto tem um `data-cat`, e o JavaScript mostra só as do grupo escolhido.
-10. **Acessibilidade.** Foco visível no teclado, textos alternativos nas fotos, `aria-live` para anunciar o IMC e contraste conferido pela WCAG.
+10. **Acessibilidade.** Foco visível no teclado, textos alternativos nas fotos, `aria-live` para anunciar o IMC e contraste conferido pela WCAG. O terracota dos textos pequenos foi escurecido de 4,0:1 para 5,0:1 para passar no mínimo de 4,5:1.
 11. **Temas e daltonismo.** O botão de sol/lua no topo troca entre claro, escuro e automático, e tem quatro modos de daltonismo: protanopia, deuteranopia, tritanopia e acromatopsia. Cada modo troca só as variáveis de cor do CSS, e em todos os avisos ganham ✓, ! e listras para não depender só da cor.
 12. **Comentários.** Cada linha do código tem um comentário explicando o que faz.
 
