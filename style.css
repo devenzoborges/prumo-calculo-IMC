@@ -1,23 +1,4 @@
-/* =====================================================================
-   PRUMO — arquivo de aparência (CSS)
-   ---------------------------------------------------------------------
-   Aqui ficam cores, fontes, tamanhos, espaços e a versão para celular.
 
-   Ordem do arquivo:
-     1. Cores e fontes (variáveis em :root) ... MUDE AS CORES AQUI
-     2. Modo escuro (mesmas variáveis, outros valores)
-     3. Base (fundo, textos, títulos)
-     4. Topo, botões
-     5. Abertura e a "thumb" (prévia do painel)
-     6. App: barra verde, etapas, formulários, IMC, treino, academias, dieta, resumo
-     7. Responsivo (@media): como tudo se reorganiza em telas menores
-   Uma variável é usada assim: var(--green). Trocar o valor em :root muda o site todo.
-   ===================================================================== */
-
-/* Prumo
-   Layout: areia como chão (60%), faixas e trilho em verde militar/esmeralda (30%),
-   manteiga e terracota só em destaques e alertas (10%). */
-/* :root = a raiz da página. Variáveis declaradas aqui valem para o site todo. */
 :root {
   /* Cor areia: fundo principal. */
   --sand: #ECE5D4;        /* 60% fundo */
@@ -49,6 +30,8 @@
   --on-terra: #FFF6EE;
   /* Cor do contorno de foco do teclado. */
   --focus: #B0553A;
+  /* Cores das 4 faixas da régua de IMC: abaixo, adequado, sobrepeso e obesidade. */
+  --g-low: #C9B37A; --g-ok: #6FA383; --g-over: #F0D27C; --g-ob: #B0553A;
 
   /* Fontes dos títulos (se a primeira não carregar, tenta as seguintes). */
   --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
@@ -251,7 +234,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* Etiqueta de exemplo: amarela, em formato de pílula. */
 .t-pill { align-self: flex-start; background: var(--butter); color: var(--butter-ink); font-size: .72rem; font-weight: 700; border-radius: 999px; padding: 3px 10px; }
 /* Régua de exemplo: degradê com as 4 cores das faixas de IMC. */
-.t-gauge { position: relative; height: 6px; border-radius: 6px; margin: 12px 0 8px; background: linear-gradient(90deg, #c9b37a 0 14%, #8fb79a 14% 40%, var(--butter) 40% 60%, var(--terra) 60%); }
+.t-gauge { position: relative; height: 6px; border-radius: 6px; margin: 12px 0 8px; background: linear-gradient(90deg, var(--g-low) 0 14%, var(--g-ok) 14% 40%, var(--g-over) 40% 60%, var(--g-ob) 60%); }
 /* Marcador da régua: tracinho claro posicionado por cima. */
 .t-gauge b { position: absolute; top: -4px; width: 4px; height: 14px; border-radius: 2px; background: var(--on-green); }
 /* Lista de etapas de exemplo: sem marcadores, em grade. */
@@ -299,50 +282,76 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 /* Descrição do passo. */
 .flow span { color: var(--muted); font-size: .95rem; }
 
-/* App = barra verde à esquerda (300px) + área das etapas à direita. */
+/* App = barra lateral à esquerda (280px) + área das etapas à direita. */
 /* ---------- app ---------- */
-/* App: grade com 2 colunas (barra de 300px e o resto). */
-.app { display: grid; grid-template-columns: 300px minmax(0, 1fr); min-height: calc(100vh - 60px); }
-/* Barra lateral verde. */
-.rail { background: var(--green); color: var(--on-green); }
+/* App: grade com 2 colunas (barra de 280px e o resto). */
+.app { display: grid; grid-template-columns: 280px minmax(0, 1fr); min-height: calc(100vh - 60px); }
+/* Barra lateral: mesmo fundo da página, separada só por uma linha fina à direita. */
+.rail { color: var(--ink); border-right: 1px solid var(--line); }
 /* Conteúdo da barra: gruda abaixo do topo ao rolar, com espaçamentos. */
-.rail-inner { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 62px); padding: 28px max(16px, env(safe-area-inset-left, 0px)) 28px 24px; display: grid; gap: 26px; }
-/* Quadro do IMC na barra: verde mais claro, cantos redondos. */
-.rail-imc { background: var(--green-2); border-radius: var(--r); padding: 18px; display: grid; gap: 4px; }
-/* Rótulo "Seu IMC". */
-.rail-imc .label { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: var(--on-green-muted); }
-/* Número do IMC: grande. */
-.rail-imc strong { font-family: var(--f-display); font-size: 2.8rem; line-height: 1; font-variant-numeric: tabular-nums; }
-/* Pílula da categoria (neutra). */
-.rail-imc .pill { justify-self: start; font-size: .78rem; font-weight: 700; border-radius: 999px; padding: 3px 11px; background: rgba(239,233,218,.14); color: var(--on-green); }
-/* Pílula 'ok': amarela. */
-.rail-imc .pill.ok { background: var(--butter); color: var(--butter-ink); }
-/* Pílula 'warn': terracota. */
+.rail-inner { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 62px); padding: 32px 22px 32px max(20px, env(safe-area-inset-left, 0px)); display: grid; gap: 16px; }
+/* Rótulos da barra ("Seu IMC", "Etapa 3 de 8"): letra normal, pequena e apagada. */
+.rail-label { font-size: .86rem; font-weight: 600; color: var(--muted); }
+/* Bloco do IMC: sem cartão, separado das etapas por uma linha embaixo. */
+.rail-imc { display: grid; gap: 8px; padding-bottom: 22px; margin-bottom: 6px; border-bottom: 1px solid var(--line); }
+/* Número e categoria na mesma linha, alinhados pela base do texto. */
+.rail-imc-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 12px; }
+/* Número do IMC: grande, extra-negrito e com dígitos de mesma largura. */
+.rail-imc strong { font-family: var(--f-display); font-size: 2.6rem; font-weight: 800; line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+/* Pílula da categoria (neutra, enquanto não há IMC). */
+.rail-imc .pill { font-size: .8rem; font-weight: 700; border-radius: 999px; padding: 3px 10px; background: color-mix(in srgb, var(--ink) 8%, transparent); color: var(--ink); }
+/* Pílula 'ok' (peso adequado): verde claro. */
+.rail-imc .pill.ok { background: var(--green-soft); color: var(--ink); }
+/* Pílula 'mid' (sobrepeso): amarela. */
+.rail-imc .pill.mid { background: var(--butter); color: var(--butter-ink); }
+/* Pílula 'warn' (abaixo do peso ou obesidade): terracota. */
 .rail-imc .pill.warn { background: var(--terra); color: var(--on-terra); }
-/* Lista de etapas: sem marcadores, em grade. */
-.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-/* Cada item é a referência para posicionamentos internos. */
+/* Régua fina: 4 faixas com as mesmas larguras da régua do cadastro, separadas por 2px. */
+.rail-gauge { position: relative; display: grid; grid-template-columns: 14% 26% 20% 40%; gap: 2px; height: 6px; margin-top: 4px; }
+/* Cada faixa vira um bloco com cantos levemente arredondados. */
+.rail-gauge i { display: block; border-radius: 3px; }
+/* Marcador: tracinho escuro com um contorno da cor do fundo; começa invisível e desliza quando o IMC muda. */
+.rail-gauge b { position: absolute; top: -4px; left: 0; width: 4px; height: 14px; border-radius: 2px; background: var(--ink); box-shadow: 0 0 0 2px var(--sand); transform: translateX(-50%); opacity: 0; transition: left .35s cubic-bezier(.2,.8,.2,1), opacity .2s; }
+/* Peso e altura: texto pequeno e apagado. */
+.rail-imc-meta { font-size: .84rem; color: var(--muted); }
+/* Parte com o nome da etapa no texto de progresso: só aparece no celular. */
+.rail-progresso .prog-nome { display: none; }
+
+/* --- fio de prumo: a lista de etapas --- */
+/* Lista sem marcadores, uma etapa embaixo da outra. */
+.steps { list-style: none; margin: 0 0 0 -10px; padding: 0; display: grid; }
+/* Cada etapa é a referência para o pedaço de fio desenhado nela. */
 .steps li { position: relative; }
-/* Botão de cada etapa: largura total, bolinha e texto lado a lado, sem fundo. */
-.steps button { width: 100%; display: flex; align-items: center; gap: 12px; padding: 9px 10px; border-radius: 10px; background: none; border: 0; color: var(--on-green-muted); text-align: left; cursor: pointer; font-size: .96rem; }
-/* Etapa ainda não liberada: cursor normal e meio transparente. */
-.steps button:disabled { cursor: default; opacity: .55; }
-/* Etapa liberada, ao passar o mouse: fundo leve e texto claro. */
-.steps button:not(:disabled):hover { background: rgba(239,233,218,.08); color: var(--on-green); }
-/* Bolinha com número: 22px, redonda, número centralizado. */
-.steps .dot { width: 22px; height: 22px; flex: none; border-radius: 50%; border: 1.5px solid currentColor; display: grid; place-items: center; font-size: .72rem; font-weight: 700; }
-/* Etapa concluída: texto claro. */
-.steps .done button { color: var(--on-green); }
-/* Bolinha da concluída: preenchida. */
-.steps .done .dot { background: var(--on-green); color: var(--green); border-color: var(--on-green); }
-/* Etapa atual: amarela, negrito, com fundo leve. */
-.steps .current button { color: var(--butter); font-weight: 700; background: rgba(239,233,218,.08); }
-/* Bolinha da atual: borda amarela. */
-.steps .current .dot { border-color: var(--butter); }
-/* Palavra "opcional": pequena, empurrada para a direita. */
-.steps .opt { font-size: .72rem; margin-left: auto; opacity: .7; font-weight: 500; }
-/* Nota da barra: pequena e apagada. */
-.rail-note { font-size: .8rem; color: var(--on-green-muted); line-height: 1.5; }
+/* Pedaço do fio que liga esta etapa à próxima: tracejado (etapa ainda por fazer). */
+.steps li:not(:last-child)::before { content: ""; position: absolute; left: 19px; top: 30px; bottom: -14px; width: 2px; background: repeating-linear-gradient(to bottom, color-mix(in srgb, var(--ink) 25%, transparent) 0 4px, transparent 4px 8px); }
+/* Etapas já feitas: o fio fica contínuo e verde. */
+.steps li.done::before { background: var(--green-2); }
+/* Botão de cada etapa: largura total, marca e texto lado a lado, sem fundo; fica por cima do fio. */
+.steps button { position: relative; z-index: 1; width: 100%; min-height: 44px; display: flex; align-items: center; gap: 14px; padding: 8px 10px; border: 0; border-radius: 10px; background: none; color: var(--muted); font-size: .95rem; text-align: left; cursor: pointer; }
+/* Etapa ainda não liberada: cursor normal e um pouco transparente. */
+.steps button:disabled { cursor: default; opacity: .6; }
+/* Etapa feita que não dá para reabrir (a conta): continua com a cor normal, sem ficar apagada. */
+.steps .done button:disabled { opacity: 1; }
+/* Etapa liberada, ao passar o mouse: fundo bem leve e texto escuro. */
+.steps button:not(:disabled):hover { background: color-mix(in srgb, var(--ink) 6%, transparent); color: var(--ink); }
+/* Marca de etapa por fazer: bolinha vazia de 12px, centralizada sobre o fio. */
+.steps .dot { flex: none; width: 12px; height: 12px; margin: 0 4px; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--ink) 32%, transparent); background: var(--sand); display: grid; place-items: center; font-size: .62rem; font-weight: 800; color: var(--on-green); }
+/* Etapa feita: texto escuro. */
+.steps .done button { color: var(--ink); }
+/* Marca de etapa feita: bolinha verde maior com ✓ branco. */
+.steps .done .dot { width: 18px; height: 18px; margin: 0 1px; background: var(--green-2); border-color: var(--green-2); }
+/* Etapa atual: texto escuro e negrito. */
+.steps .current button { color: var(--ink); font-weight: 700; }
+/* Marca da etapa atual: o "peso" do prumo, um losango terracota (clip-path recorta o quadrado em losango). */
+.steps .current .dot { width: 16px; height: 24px; margin: 0 2px; border: 0; border-radius: 0; background: var(--terra); clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); animation: prumo-cai .45s cubic-bezier(.3,1.4,.5,1) both; }
+/* Animação: o peso desce um pouco e para na etapa nova (só roda quando a etapa muda). */
+@keyframes prumo-cai { from { transform: translateY(-12px); opacity: 0; } to { transform: none; opacity: 1; } }
+/* Palavra "opcional": pequena, apagada e empurrada para a direita. */
+.steps .opt { margin-left: auto; font-size: .76rem; font-weight: 500; color: var(--muted); }
+/* Texto só para leitor de tela (fica invisível, mas é lido). */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* Nota da barra: pequena e apagada, separada por uma linha em cima. */
+.rail-note { margin-top: 8px; padding-top: 18px; border-top: 1px solid var(--line); font-size: .8rem; line-height: 1.5; color: var(--muted); }
 
 /* Área das etapas: espaços que acompanham a tela e a área segura do celular. */
 .stage { padding: clamp(24px, 4vw, 48px) max(16px, env(safe-area-inset-right, 0px)) 64px max(16px, 3.5vw); min-width: 0; }
@@ -464,7 +473,7 @@ input::placeholder, textarea::placeholder { color: color-mix(in srgb, var(--mute
 /* Cada pedaço da faixa vira bloco. */
 .gauge-track i { display: block; }
 /* Cores dos pedaços: bege, verde, amarelo e terracota. */
-.g-low { background: #C9B37A; } .g-ok { background: #6FA383; } .g-over { background: var(--butter); } .g-ob { background: var(--terra); }
+.g-low { background: var(--g-low); } .g-ok { background: var(--g-ok); } .g-over { background: var(--g-over); } .g-ob { background: var(--g-ob); }
 /* Marcador: posicionado por cima, centralizado (translateX -50%), invisível até ter IMC, com animação ao mover. */
 .gauge-pin { position: absolute; top: 0; left: 0; width: 6px; height: 22px; border-radius: 3px; background: var(--ink); transform: translateX(-50%); opacity: 0; transition: left .35s cubic-bezier(.2,.8,.2,1), opacity .2s; box-shadow: 0 0 0 2px var(--paper); }
 /* Linha dos números de referência. */
@@ -791,3 +800,115 @@ input::placeholder, textarea::placeholder { color: color-mix(in srgb, var(--mute
 .example figcaption span { font-size: .9rem; color: var(--muted); }
 /* Celular: fotos um pouco mais baixas. */
 @media (max-width: 520px) { .example img { height: 240px; } }
+
+/* ---------- aparência: botão e painel ---------- */
+/* O tema claro também avisa o navegador (barras de rolagem e campos claros). */
+:root[data-theme="light"] { color-scheme: light; }
+/* Caixa do botão: referência para posicionar o painel embaixo dele. */
+.a11y { position: relative; }
+/* Botão só com ícone: quadradinho de 38px. */
+.icon-btn { width: 38px; height: 38px; padding: 0; }
+/* Tamanho dos ícones. */
+.icon-btn svg { width: 18px; height: 18px; }
+/* No tema claro, esconde a lua. */
+.ico-lua { display: none; }
+/* No tema escuro, esconde o sol... */
+:root[data-theme="dark"] .ico-sol { display: none; }
+/* ...e mostra a lua. */
+:root[data-theme="dark"] .ico-lua { display: block; }
+/* Painel: fica embaixo do botão, alinhado à direita, com fundo papel, cantos redondos e sombra. */
+.a11y-pop { position: absolute; right: 0; top: calc(100% + 10px); z-index: 40; width: min(320px, calc(100vw - 32px)); display: grid; gap: 18px; padding: 18px; border-radius: 16px; background: var(--paper); color: var(--ink); box-shadow: 0 0 0 1px var(--line), 0 22px 44px -20px rgba(0,0,0,.5); }
+/* Grupo do tema: sem borda nem margem do fieldset. */
+.a11y-group { border: 0; margin: 0; padding: 0; display: grid; gap: 10px; }
+/* Título "Tema". */
+.a11y-group legend { padding: 0; margin-bottom: 10px; font-weight: 700; font-size: .95rem; }
+/* Botões segmentados menores. */
+.seg-sm span { padding: 7px 13px; font-size: .88rem; }
+/* Interruptor: trilha à esquerda e texto à direita. */
+.switch { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start; cursor: pointer; }
+/* A caixa de marcar real fica invisível por cima de tudo (continua clicável e acessível). */
+.switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+/* Trilha do interruptor: pílula cinza de 42×24px. */
+.switch-track { position: relative; width: 42px; height: 24px; margin-top: 2px; border-radius: 999px; background: color-mix(in srgb, var(--ink) 22%, transparent); transition: background-color .2s ease; }
+/* Bolinha do interruptor. */
+.switch-track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--paper); box-shadow: 0 1px 3px rgba(0,0,0,.3); transition: transform .2s ease; }
+/* Ligado: trilha verde... */
+.switch input:checked + .switch-track { background: var(--green-2); }
+/* ...e a bolinha desliza para a direita. */
+.switch input:checked + .switch-track::after { transform: translateX(18px); }
+/* Foco do teclado: contorno na trilha. */
+.switch input:focus-visible + .switch-track { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* Texto do interruptor: título e explicação empilhados. */
+.switch-txt { display: grid; gap: 2px; }
+/* Explicação pequena e apagada. */
+.switch-txt small { font-size: .82rem; color: var(--muted); line-height: 1.4; }
+
+/* ---------- modo daltônico ---------- */
+/* Paleta Okabe-Ito (feita para daltonismo): o verde vira azul, a terracota vira laranja-avermelhado e o amarelo vira laranja. */
+:root[data-cvd="on"] {
+  /* Azuis no lugar dos verdes. */
+  --green: #0B4F8A; --green-2: #1767AC; --green-soft: #DCE8F5; --on-green: #F3F7FC; --on-green-muted: #BCD0E6;
+  /* Laranja no lugar do amarelo. */
+  --butter: #F2B33D; --butter-ink: #2B1C00;
+  /* Vermelhão no lugar da terracota; o foco acompanha. */
+  --terra: #C85200; --on-terra: #FFFFFF; --focus: #C85200;
+  /* Régua de IMC: azul claro, azul, laranja e vermelhão (diferem também no claro/escuro). */
+  --g-low: #8CC8EE; --g-ok: #1767AC; --g-over: #F2B33D; --g-ob: #C85200;
+}
+/* Modo daltônico + tema escuro: as mesmas cores, ajustadas para o fundo escuro. */
+:root[data-cvd="on"][data-theme="dark"] {
+  /* Azuis escuros. */
+  --green: #0E3A63; --green-2: #2A78BD; --green-soft: #1A2C3F; --on-green: #F3F7FC; --on-green-muted: #A9C2DC;
+  /* Laranja. */
+  --butter: #F2B84D; --butter-ink: #2B1C00;
+  /* Vermelhão mais claro; o foco fica laranja para aparecer no escuro. */
+  --terra: #E0743A; --on-terra: #1A0D05; --focus: #F2B84D;
+  /* Régua de IMC. */
+  --g-low: #7DBCE6; --g-ok: #2A78BD; --g-over: #F2B84D; --g-ob: #E0743A;
+}
+/* Além da cor, as faixas de risco ganham listras (sobrepeso) e listras mais grossas (obesidade). */
+:root[data-cvd="on"] .g-over { background-image: repeating-linear-gradient(135deg, rgba(0,0,0,.22) 0 2px, transparent 2px 5px); }
+/* Listras da obesidade. */
+:root[data-cvd="on"] .g-ob { background-image: repeating-linear-gradient(135deg, rgba(0,0,0,.3) 0 3px, transparent 3px 6px); }
+/* Pílulas e etiquetas ganham um sinal na frente: ✓ para "ok"... */
+:root[data-cvd="on"] .pill.ok::before { content: "✓ "; }
+/* ...e ! para alerta. */
+:root[data-cvd="on"] .pill.warn::before, :root[data-cvd="on"] .tag.warn::before { content: "! "; }
+/* Na linha do tempo do resumo, o treino vira um quadrado para não depender só da cor. */
+:root[data-cvd="on"] .timeline .k-treino .pt { border-radius: 2px; }
+
+/* ---------- barra lateral em telas menores ---------- */
+/* Até 980px a barra vira uma faixa em cima do conteúdo. */
+@media (max-width: 980px) {
+  /* Linha fina embaixo em vez de do lado. */
+  .rail { border-right: 0; border-bottom: 1px solid var(--line); }
+  /* Faixa: IMC à esquerda, progresso e etapas à direita. */
+  .rail-inner { grid-template-columns: auto minmax(0, 1fr); gap: 4px 20px; padding-block: 14px; }
+  /* IMC ocupa as duas linhas da esquerda, sem a linha de baixo, com uma linha à direita. */
+  .rail-imc { grid-row: span 2; align-content: center; padding: 0 20px 0 0; margin: 0; border-bottom: 0; border-right: 1px solid var(--line); gap: 2px; }
+  /* Número menor. */
+  .rail-imc strong { font-size: 1.7rem; }
+  /* Esconde a régua e o peso/altura para economizar espaço. */
+  .rail-gauge, .rail-imc-meta { display: none; }
+  /* Mostra o nome da etapa no texto de progresso (ex.: "Etapa 3 de 8: Rotina e sono"). */
+  .rail-progresso .prog-nome { display: inline; }
+  /* Etapas em linha, sem margem negativa. */
+  .steps { margin: 0; gap: 0; align-items: center; }
+  /* Cada etapa não encolhe. */
+  .steps li { flex: none; }
+  /* Fio na horizontal, ligando as marcas. */
+  .steps li:not(:last-child)::before { top: 50%; bottom: auto; left: 26px; right: -12px; width: auto; height: 2px; background: repeating-linear-gradient(to right, color-mix(in srgb, var(--ink) 25%, transparent) 0 4px, transparent 4px 8px); }
+  /* Fio contínuo nas etapas feitas. */
+  .steps li.done::before { background: var(--green-2); }
+  /* Botões compactos, só com a marca. */
+  .steps button { min-height: 40px; padding: 8px; gap: 0; }
+  /* Esconde todos os nomes (o nome da atual já aparece no texto de progresso). */
+  .steps .current .label-txt { display: none; }
+}
+/* Até 520px: IMC em cima, progresso e etapas embaixo. */
+@media (max-width: 520px) {
+  /* Uma coluna só. */
+  .rail-inner { grid-template-columns: minmax(0, 1fr); }
+  /* IMC sem a linha da direita e com a linha embaixo. */
+  .rail-imc { grid-row: auto; padding: 0 0 10px; border-right: 0; border-bottom: 1px solid var(--line); margin-bottom: 6px; }
+}

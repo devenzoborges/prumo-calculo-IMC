@@ -12,6 +12,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="style.css">
+<!-- Aplica o tema e o modo daltônico salvos ANTES de a página aparecer (evita piscar o tema errado). -->
+<script>
+  // try/catch: se o navegador bloquear o localStorage, a página abre no tema automático sem dar erro.
+  try {
+    // Lê o tema salvo ("claro", "escuro" ou "auto"); se não houver nada, usa "auto".
+    var tema = JSON.parse(localStorage.getItem('prumo:tema')) || 'auto';
+    // Fica escuro se a pessoa escolheu "escuro", ou se escolheu "auto" e o aparelho está no modo escuro.
+    var escuro = tema === 'escuro' || (tema === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    // Marca o <html> com data-theme="dark" ou "light"; o CSS troca as cores a partir disso.
+    document.documentElement.dataset.theme = escuro ? 'dark' : 'light';
+    // Se o modo daltônico estiver ligado, marca o <html> com data-cvd="on".
+    if (JSON.parse(localStorage.getItem('prumo:daltonico'))) document.documentElement.dataset.cvd = 'on';
+  // Fim do try (erros são ignorados).
+  } catch (e) {}
+</script>
 
 </head>
 <body>
@@ -31,6 +46,48 @@
     </button>
     <!-- Área dos botões da direita do topo. -->
     <div class="topbar-actions">
+      <!-- Caixa do botão de aparência e do painel que abre embaixo dele. -->
+      <div class="a11y">
+        <!-- Botão que abre o painel; aria-expanded diz ao leitor de tela se o painel está aberto. -->
+        <button class="btn btn-ghost icon-btn" type="button" id="btn-aparencia" aria-expanded="false" aria-controls="painel-aparencia" aria-label="Aparência e acessibilidade" title="Aparência">
+          <!-- Ícone de sol (aparece no tema claro). -->
+          <svg class="ico-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></g></svg>
+          <!-- Ícone de lua (aparece no tema escuro). -->
+          <svg class="ico-lua" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" fill="currentColor"/></svg>
+        <!-- Fim do botão. -->
+        </button>
+        <!-- Painel de aparência; começa escondido e o app.js abre/fecha. -->
+        <div class="a11y-pop" id="painel-aparencia" role="dialog" aria-label="Aparência" hidden>
+          <!-- Grupo de escolha do tema. -->
+          <fieldset class="a11y-group">
+            <!-- Título do grupo. -->
+            <legend>Tema</legend>
+            <!-- Botões segmentados (mesmo estilo dos outros rádios do site). -->
+            <div class="seg seg-sm">
+              <!-- Tema claro. -->
+              <label><input type="radio" name="tema" value="claro"><span>Claro</span></label>
+              <!-- Tema escuro. -->
+              <label><input type="radio" name="tema" value="escuro"><span>Escuro</span></label>
+              <!-- Segue o tema do aparelho (padrão). -->
+              <label><input type="radio" name="tema" value="auto" checked><span>Automático</span></label>
+            <!-- Fim dos botões. -->
+            </div>
+          <!-- Fim do grupo. -->
+          </fieldset>
+          <!-- Interruptor do modo daltônico: a caixa de marcar real fica invisível e a "trilha" desenha o botão. -->
+          <label class="switch">
+            <!-- Caixa de marcar real (role=switch faz o leitor de tela falar "ligado/desligado"). -->
+            <input type="checkbox" id="opt-daltonico" role="switch">
+            <!-- Trilha com a bolinha que desliza. -->
+            <span class="switch-track" aria-hidden="true"></span>
+            <!-- Texto do interruptor. -->
+            <span class="switch-txt"><strong>Modo daltônico</strong><small>Troca verde e vermelho por azul e laranja e marca os avisos com ✓ e !</small></span>
+          <!-- Fim do interruptor. -->
+          </label>
+        <!-- Fim do painel. -->
+        </div>
+      <!-- Fim da caixa de aparência. -->
+      </div>
       <!-- Espaço do "Olá, Nome"; começa escondido (hidden) e o app.js mostra quando alguém entra. -->
       <span class="who" id="who" hidden></span>
       <!-- Botão "Entrar" do topo (id usado no app.js). -->
@@ -199,25 +256,34 @@
 <!-- ============ APP ============ -->
 <!-- Tela do app (id view-app); começa escondida. -->
 <section class="view app" id="view-app" hidden>
-  <!-- Barra verde: IMC da pessoa + lista de etapas (a lista é montada pelo app.js) -->
-  <!-- Barra lateral (aside). -->
-  <aside class="rail">
+  <!-- Barra lateral: IMC da pessoa e o "fio de prumo" com as etapas (a lista é montada pelo app.js). -->
+  <aside class="rail" aria-label="Seu progresso">
     <!-- Caixa interna da barra (fica "grudada" ao rolar). -->
     <div class="rail-inner">
-      <!-- Quadro do IMC na barra. -->
+      <!-- Bloco do IMC. -->
       <div class="rail-imc" id="rail-imc">
-        <!-- Rótulo "Seu IMC". -->
-        <span class="label">Seu IMC</span>
-        <!-- Número do IMC (o app.js preenche). -->
-        <strong id="rail-imc-num">--</strong>
-        <!-- Categoria do IMC (o app.js preenche e muda a cor). -->
-        <span class="pill" id="rail-imc-cat">Preencha peso e altura</span>
-      <!-- Fim do quadro do IMC. -->
+        <!-- Rótulo do bloco. -->
+        <span class="rail-label">Seu IMC</span>
+        <!-- Linha com o número e a categoria lado a lado. -->
+        <div class="rail-imc-row">
+          <!-- Número do IMC (o app.js preenche). -->
+          <strong id="rail-imc-num">--</strong>
+          <!-- Categoria do IMC (o app.js preenche e muda a cor). -->
+          <span class="pill" id="rail-imc-cat">Sem dados</span>
+        <!-- Fim da linha. -->
+        </div>
+        <!-- Régua fina com as 4 faixas de IMC e o marcador (só decoração, por isso aria-hidden). -->
+        <div class="rail-gauge" aria-hidden="true"><i class="g-low"></i><i class="g-ok"></i><i class="g-over"></i><i class="g-ob"></i><b id="rail-imc-pin"></b></div>
+        <!-- Peso e altura usados no cálculo (o app.js preenche). -->
+        <p class="rail-imc-meta" id="rail-imc-meta">Preencha peso e altura no cadastro.</p>
+      <!-- Fim do bloco do IMC. -->
       </div>
-      <!-- Lista vazia de etapas; o app.js monta os itens (função paintSteps). -->
+      <!-- Em que etapa a pessoa está (o app.js preenche, ex.: "Etapa 3 de 8"). -->
+      <p class="rail-label rail-progresso" id="rail-progresso">Etapa 1 de 8</p>
+      <!-- Lista de etapas desenhada como um fio de prumo; o app.js monta os itens (função paintSteps). -->
       <ol class="steps" id="steps"></ol>
       <!-- Aviso de que é uma orientação geral. -->
-      <p class="rail-note">O Prumo dá uma orientação geral. Para dieta e treino individualizados, procure um nutricionista e um profissional de educação física.</p>
+      <p class="rail-note">O Prumo dá uma orientação geral. Para dieta e treino sob medida, procure um nutricionista e um profissional de educação física.</p>
     <!-- Fim da caixa interna. -->
     </div>
   <!-- Fim da barra lateral. -->

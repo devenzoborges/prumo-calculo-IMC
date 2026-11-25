@@ -1,31 +1,6 @@
-/* =====================================================================
-   PRUMO — arquivo de comportamento (JavaScript)
-   ---------------------------------------------------------------------
-   Este arquivo faz o site "funcionar": calcula o IMC, troca de tela,
-   guarda as respostas, monta o treino, a rotina e a dieta.
 
-   Como ler este arquivo (de cima para baixo):
-     1. Utilidades ........ pequenas ferramentas usadas em todo lugar
-     2. Dados ............. listas de esportes, exercícios e alimentos
-                            (é aqui que você muda o conteúdo do site)
-     3. Estado ............ quem está logado e as respostas dessa pessoa
-     4. IMC ............... cálculo e régua colorida
-     5. Navegação ......... qual tela aparece e a barra de etapas
-     6. Uma seção por tela: conta, esportes, treino, foco, rotina,
-                            novo esporte, dieta e resumo
-     7. Eventos ........... o que acontece quando a pessoa clica/digita
-     8. Início ............ o que roda assim que a página abre
-
-   Palavras que aparecem bastante:
-     U         = a pessoa logada (nome, peso, altura, respostas...)
-     R         = U.respostas, tudo o que ela respondeu nas etapas
-     $('#id')  = "pegue o elemento da página que tem esse id"
-     save()    = guarda tudo no navegador (localStorage)
-   ===================================================================== */
-/* Prumo — HTML, CSS e JavaScript puro. Sem servidor: contas e respostas ficam no localStorage deste navegador. */
-// Abre uma função que se executa sozinha (IIFE): tudo aqui dentro fica "fechado" e não vaza variáveis para o resto da página.
 (function () {
-  // Modo estrito: o navegador passa a acusar erros comuns (ex.: usar variável sem declarar).
+
   'use strict';
 
   /* ================= utilidades ================= */
@@ -522,9 +497,15 @@
     // Se há alguém logado, calcula o IMC dele; senão null.
     const info = U ? imcInfo(U.peso, U.altura) : null;
     // Sem IMC: mostra "--", pede os dados, volta a pílula ao estilo neutro e sai.
-    if (!info) { n.textContent = '--'; c.textContent = 'Preencha peso e altura'; c.className = 'pill'; return; }
-    // Com IMC: mostra o número e a categoria, e põe a classe 'ok' (amarela) ou 'warn' (terracota) na pílula.
-    n.textContent = fmt1(info.v); c.textContent = info.cat; c.className = 'pill ' + (info.cls === 'ok' ? 'ok' : info.cls === 'warn' ? 'warn' : '');
+    // Pega o marcador da régua e o texto de peso/altura da barra.
+    const pin = $('#rail-imc-pin'), meta = $('#rail-imc-meta');
+    if (!info) { n.textContent = '--'; c.textContent = 'Sem dados'; c.className = 'pill'; pin.style.opacity = 0; meta.textContent = 'Preencha peso e altura no cadastro.'; return; }
+    // Com IMC: mostra o número e a categoria, e põe a classe 'ok' (verde), 'mid' (amarela) ou 'warn' (terracota) na pílula.
+    n.textContent = fmt1(info.v); c.textContent = info.cat; c.className = 'pill ' + info.cls;
+    // Move o marcador da régua para a posição do IMC (em %) e deixa ele visível.
+    pin.style.left = info.pos + '%'; pin.style.opacity = 1;
+    // Mostra o peso (com vírgula) e a altura usados no cálculo.
+    meta.textContent = `${String(U.peso).replace('.', ',')} kg e ${U.altura} cm`;
   // Fim da função paintRail.
   }
 
@@ -594,9 +575,14 @@
       // 'can' = pode clicar: precisa estar logado, não é a etapa 'conta' e já foi alcançada (ou vem antes da atual).
       const can = U && s.id !== 'conta' && (r.has(s.id) || i <= ci);
       // Gera o <li> com classes current/done, um botão (desabilitado se não puder clicar), a bolinha (✓ ou número), o nome e "opcional" se for o caso.
-      return `<li class="${s.id === current ? 'current' : ''} ${i < ci ? 'done' : ''}"><button type="button" data-step-go="${s.id}" ${can ? '' : 'disabled'} ${s.id === current ? 'aria-current="step"' : ''}><span class="dot">${i < ci ? '✓' : i + 1}</span><span class="label-txt">${s.nome}</span>${s.opt ? '<span class="opt">opcional</span>' : ''}</button></li>`;
+      // Situação da etapa, lida só pelo leitor de tela.
+      const sit = s.id === current ? 'etapa atual' : i < ci ? 'feita' : 'por fazer';
+      return `<li class="${s.id === current ? 'current' : ''} ${i < ci ? 'done' : ''}"><button type="button" data-step-go="${s.id}" ${can ? '' : 'disabled'} ${s.id === current ? 'aria-current="step"' : ''} title="${s.nome}"><span class="dot" aria-hidden="true">${i < ci ? '✓' : ''}</span><span class="label-txt">${s.nome}</span>${s.opt ? '<span class="opt">opcional</span>' : ''}<span class="sr-only">, ${sit}</span></button></li>`;
     // Fecha o map e junta os pedaços de HTML num texto só.
     }).join('');
+    // Escreve "Etapa X de N" e, só no celular (CSS), o nome da etapa atual.
+    const at = a[Math.max(ci, 0)];
+    $('#rail-progresso').innerHTML = `Etapa ${Math.max(ci, 0) + 1} de ${a.length}<span class="prog-nome">: ${at ? at.nome : ''}</span>`;
   // Fim da função paintSteps.
   }
   // paintTop: ajusta a barra do topo conforme alguém esteja logado ou não.
@@ -1539,6 +1525,62 @@
   });
 
   
+  /* ================= aparência: tema e modo daltônico ================= */
+  // Chaves onde a escolha de aparência fica salva (as mesmas lidas pelo <script> do <head>).
+  const KEY_TEMA = 'prumo:tema', KEY_CVD = 'prumo:daltonico';
+  // Consulta do sistema: .matches fica true quando o aparelho está no modo escuro.
+  const escuroSistema = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  // Atalhos para o botão e o painel de aparência.
+  const btnAp = $('#btn-aparencia'), popAp = $('#painel-aparencia');
+  // aplicarTema: lê as escolhas salvas, marca o <html> e deixa o painel mostrando as opções certas.
+  function aplicarTema() {
+    // Tema salvo ("claro", "escuro" ou "auto") e se o modo daltônico está ligado.
+    const tema = store.get(KEY_TEMA, 'auto'), cvd = !!store.get(KEY_CVD, false);
+    // Decide se fica escuro: escolha "escuro", ou "auto" com o aparelho no modo escuro.
+    const escuro = tema === 'escuro' || (tema === 'auto' && !!escuroSistema && escuroSistema.matches);
+    // data-theme no <html> troca todas as cores pelo CSS.
+    document.documentElement.dataset.theme = escuro ? 'dark' : 'light';
+    // data-cvd="on" liga a paleta para daltonismo; delete remove o atributo.
+    if (cvd) document.documentElement.dataset.cvd = 'on'; else delete document.documentElement.dataset.cvd;
+    // Marca no painel o rádio do tema salvo.
+    const r = $(`input[name="tema"][value="${tema}"]`); if (r) r.checked = true;
+    // Liga/desliga o interruptor conforme o salvo.
+    $('#opt-daltonico').checked = cvd;
+    // Atualiza o nome do botão lido pelo leitor de tela.
+    btnAp.setAttribute('aria-label', `Aparência: tema ${escuro ? 'escuro' : 'claro'}${cvd ? ', modo daltônico ligado' : ''}`);
+  // Fim da função aplicarTema.
+  }
+  // abrirAparencia(true/false): mostra ou esconde o painel e avisa o leitor de tela.
+  function abrirAparencia(abrir) {
+    // Mostra/esconde o painel.
+    popAp.hidden = !abrir;
+    // Atualiza aria-expanded do botão.
+    btnAp.setAttribute('aria-expanded', String(abrir));
+    // Ao abrir, coloca o foco do teclado na opção de tema marcada.
+    if (abrir) { const r = popAp.querySelector('input:checked'); if (r) r.focus(); }
+  // Fim da função abrirAparencia.
+  }
+  // Clique no botão: abre se estiver fechado, fecha se estiver aberto.
+  btnAp.addEventListener('click', () => abrirAparencia(popAp.hidden));
+  // Clique em qualquer lugar fora da caixa de aparência fecha o painel.
+  document.addEventListener('click', (e) => { if (!popAp.hidden && !e.target.closest('.a11y')) abrirAparencia(false); });
+  // Tecla Esc fecha o painel e devolve o foco ao botão.
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !popAp.hidden) { abrirAparencia(false); btnAp.focus(); } });
+  // Mudança de opção dentro do painel:
+  popAp.addEventListener('change', (e) => {
+    // se mudou o tema, salva e avisa;
+    if (e.target.name === 'tema') { store.set(KEY_TEMA, e.target.value); toast({ claro: 'Tema claro ligado', escuro: 'Tema escuro ligado', auto: 'Tema automático: segue o aparelho' }[e.target.value]); }
+    // se mexeu no interruptor, salva e avisa;
+    if (e.target.id === 'opt-daltonico') { store.set(KEY_CVD, e.target.checked); toast(e.target.checked ? 'Modo daltônico ligado' : 'Modo daltônico desligado'); }
+    // e aplica na hora.
+    aplicarTema();
+  // Fim do ouvinte.
+  });
+  // Se o aparelho trocar entre claro e escuro e o tema for "auto", acompanha.
+  if (escuroSistema && escuroSistema.addEventListener) escuroSistema.addEventListener('change', () => { if (store.get(KEY_TEMA, 'auto') === 'auto') aplicarTema(); });
+  // Aplica a aparência salva assim que o código roda.
+  aplicarTema();
+
   // Ao abrir a página: ajusta o topo e o IMC do cadastro.
   paintTop(); paintImcLive();
   // Se já havia alguém logado, mostra o IMC dele na barra.
