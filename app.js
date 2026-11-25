@@ -1525,6 +1525,34 @@
   });
 
   
+  /* ================= filtro das fotos de antes e depois ================= */
+  // Nome de cada grupo para o texto de contagem.
+  const NOME_FILTRO = { todos: 'exemplos', mulher: 'exemplos de mulheres', velho: 'exemplos de pessoas mais velhas', jovem: 'exemplos de jovens' };
+  // Clique num botão do filtro:
+  $('.filtro').addEventListener('click', (e) => {
+    // pega o botão clicado (ou sai, se clicou no espaço entre eles);
+    const b = e.target.closest('.filtro-btn'); if (!b) return;
+    // qual grupo foi pedido ("todos", "mulher", "velho" ou "jovem");
+    const f = b.dataset.filtro;
+    // liga só o botão clicado;
+    $$('.filtro-btn').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    // conta quantas fotos ficam visíveis;
+    let n = 0;
+    // para cada foto: mostra se for do grupo (ou se for "todos") e esconde as outras;
+    $$('#examples .example').forEach((fig) => {
+      // true se a foto deve aparecer.
+      const mostra = f === 'todos' || fig.dataset.cat === f;
+      // A classe "escondido" some com a foto.
+      fig.classList.toggle('escondido', !mostra);
+      // Reinicia a animação de entrada: tira a classe, força o navegador a recalcular (offsetWidth) e põe de volta.
+      fig.classList.remove('entrando'); if (mostra) { void fig.offsetWidth; fig.classList.add('entrando'); n++; }
+    // Fim do forEach.
+    });
+    // Escreve "4 exemplos de mulheres" (ou "1 exemplo...", no singular).
+    $('#filtro-conta').textContent = `${n} ${n === 1 ? NOME_FILTRO[f].replace('exemplos', 'exemplo') : NOME_FILTRO[f]}`;
+  // Fim do ouvinte.
+  });
+
   /* ================= aparência: tema e modo daltônico ================= */
   // Chaves onde a escolha de aparência fica salva (as mesmas lidas pelo <script> do <head>).
   const KEY_TEMA = 'prumo:tema', KEY_CVD = 'prumo:daltonico';

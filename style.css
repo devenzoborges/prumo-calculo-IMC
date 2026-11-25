@@ -912,3 +912,41 @@ input::placeholder, textarea::placeholder { color: color-mix(in srgb, var(--mute
   /* IMC sem a linha da direita e com a linha embaixo. */
   .rail-imc { grid-row: auto; padding: 0 0 10px; border-right: 0; border-bottom: 1px solid var(--line); margin-bottom: 6px; }
 }
+
+/* ---------- efeito do mouse em "Como o plano é montado" ---------- */
+/* Cada passo vira referência para a barrinha de baixo. */
+.flow li { position: relative; transition: background-color .25s ease; }
+/* Barrinha terracota na base do passo, começa encolhida (scaleX 0) a partir da esquerda. */
+.flow li::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--terra); transform: scaleX(0); transform-origin: left; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+/* Ao passar o mouse: a barrinha cresce até a largura toda. */
+.flow li:hover::after { transform: scaleX(1); }
+/* O número sobe um pouco e fica verde... */
+.flow li::before { justify-self: start; transform-origin: left bottom; transition: transform .3s ease, color .3s ease; }
+/* ...quando o mouse está em cima. */
+.flow li:hover::before { transform: translateY(-3px) scale(1.15); color: var(--green-2); }
+/* O título desliza 4px para a direita. */
+.flow li strong { transition: transform .3s ease; }
+/* Efeito no título ao passar o mouse. */
+.flow li:hover strong { transform: translateX(4px); }
+/* O texto fica um pouco mais escuro para destacar o passo. */
+.flow li:hover span { color: var(--ink); }
+/* No tema escuro o número fica amarelo (o verde some no fundo escuro). */
+:root[data-theme="dark"] .flow li:hover::before { color: var(--butter); }
+
+/* ---------- filtro das fotos ---------- */
+/* Botões do filtro em linha, quebrando se faltar espaço. */
+.filtro { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+/* Cada botão: pílula com borda, mínimo de 40px de altura (bom para o dedo). */
+.filtro-btn { min-height: 40px; padding: 8px 18px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); font-weight: 600; cursor: pointer; transition: background-color .15s ease, border-color .15s ease, color .15s ease; }
+/* Ao passar o mouse: borda verde. */
+.filtro-btn:hover { border-color: var(--green-2); }
+/* Botão ligado: fundo verde e texto claro. */
+.filtro-btn[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: var(--on-green); }
+/* Texto com a quantidade de fotos: pequeno e apagado. */
+.filtro-conta { font-size: .88rem; color: var(--muted); }
+/* Foto escondida pelo filtro. */
+.example.escondido { display: none; }
+/* Foto que acabou de aparecer: entra com um leve fade (só quando o filtro muda). */
+.example.entrando { animation: foto-entra .3s ease both; }
+/* Animação de entrada: começa transparente e 6px abaixo. */
+@keyframes foto-entra { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }

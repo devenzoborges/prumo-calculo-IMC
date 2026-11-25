@@ -220,31 +220,109 @@
     <h2>Exemplos de antes e depois</h2>
     <!-- Aviso: são imagens ilustrativas, não resultados de pessoas que usaram o Prumo. -->
     <p class="sub">Imagens ilustrativas de mudanças com treino e dieta. Não são resultados de usuários do Prumo.</p>
-    <!-- Grade com os três exemplos. -->
-    <div class="examples">
-      <!-- Exemplo 1; loading=lazy só carrega a imagem quando ela aparece na tela. -->
-      <figure class="example">
+    <!-- Filtro das fotos: cada botão mostra só um grupo; aria-pressed diz qual está ligado. -->
+    <div class="filtro" role="group" aria-label="Filtrar exemplos">
+      <!-- Mostra todas as fotos (ligado ao abrir a página). -->
+      <button type="button" class="filtro-btn" data-filtro="todos" aria-pressed="true">Geral</button>
+      <!-- Só mulheres. -->
+      <button type="button" class="filtro-btn" data-filtro="mulher" aria-pressed="false">Mulheres</button>
+      <!-- Só pessoas mais velhas. -->
+      <button type="button" class="filtro-btn" data-filtro="velho" aria-pressed="false">Mais velhos</button>
+      <!-- Só jovens. -->
+      <button type="button" class="filtro-btn" data-filtro="jovem" aria-pressed="false">Jovens</button>
+    <!-- Fim do filtro. -->
+    </div>
+    <!-- Quantas fotos estão aparecendo; aria-live faz o leitor de tela anunciar quando muda. -->
+    <p class="filtro-conta" id="filtro-conta" aria-live="polite">11 exemplos</p>
+    <!-- Grade com os exemplos. -->
+    <div class="examples" id="examples">
+      <!-- Exemplo 1: data-cat diz em qual filtro a foto aparece; loading=lazy só carrega a imagem quando ela chega na tela. -->
+      <figure class="example" data-cat="jovem">
         <!-- Foto de antes e depois (esquerda = antes, direita = depois). -->
         <img src="img/exemplo-1.jpg" alt="Rapaz sem camisa antes, magro e sem definição, e depois, com mais músculos e abdômen definido" loading="lazy">
         <!-- Legenda do exemplo. -->
         <figcaption><strong>Ganhar massa e definir</strong><span>Treino de força com calorias e proteína suficientes.</span></figcaption>
       <!-- Fim do exemplo 1. -->
       </figure>
-      <!-- Exemplo 2. -->
-      <figure class="example">
-        <!-- Foto de antes e depois. -->
-        <img src="img/exemplo-2.jpg" alt="Homem antes, com pouco tônus muscular, e depois, mais definido, na praia" loading="lazy">
+      <!-- Exemplo 2: data-cat diz em qual filtro a foto aparece; loading=lazy só carrega a imagem quando ela chega na tela. -->
+      <figure class="example" data-cat="jovem">
+        <!-- Foto de antes e depois (esquerda = antes, direita = depois). -->
+        <img src="img/jovem-1.jpg" alt="Rapaz de óculos e camiseta antes e, depois, musculoso fazendo pose de fisiculturismo" loading="lazy">
         <!-- Legenda do exemplo. -->
-        <figcaption><strong>Perder gordura e definir</strong><span>Déficit calórico leve com treino de força.</span></figcaption>
+        <figcaption><strong>Do zero à musculação</strong><span>Anos de treino de força constante.</span></figcaption>
       <!-- Fim do exemplo 2. -->
       </figure>
-      <!-- Exemplo 3. -->
-      <figure class="example">
-        <!-- Foto de antes e depois. -->
+      <!-- Exemplo 3: data-cat diz em qual filtro a foto aparece; loading=lazy só carrega a imagem quando ela chega na tela. -->
+      <figure class="example" data-cat="jovem">
+        <!-- Foto de antes e depois (esquerda = antes, direita = depois). -->
+        <img src="img/jovem-2.jpg" alt="Rapaz magro sem camisa antes e, depois, com ombros e abdômen mais marcados" loading="lazy">
+        <!-- Legenda do exemplo. -->
+        <figcaption><strong>Primeiros meses de treino</strong><span>Ganho de massa magra sem pressa.</span></figcaption>
+      <!-- Fim do exemplo 3. -->
+      </figure>
+      <!-- Exemplo 4: data-cat diz em qual filtro a foto aparece; loading=lazy só carrega a imagem quando ela chega na tela. -->
+      <figure class="example" data-cat="jovem">
+        <!-- Foto de antes e depois (esquerda = antes, direita = depois). -->
         <img src="img/exemplo-3.jpg" alt="Homem antes, com barriga, e depois, mais magro e com abdômen aparente" loading="lazy">
         <!-- Legenda do exemplo. -->
         <figcaption><strong>Perder gordura</strong><span>Dieta ajustada à rotina e treino regular.</span></figcaption>
-      <!-- Fim do exemplo 3. -->
+      <!-- Fim do exemplo 4. -->
+      </figure>
+      <!-- Exemplo 5: data-cat diz em qual filtro a foto aparece; loading=lazy só carrega a imagem quando ela chega na tela. -->
+      <figure class="example" data-cat="mulher">
+        <!-- Foto de antes e depois (esquerda = antes, direita = depois). -->
+        <img src="img/mulher-1.jpg" alt="Mulher de top e legging antes e, depois, com braços e abdômen mais definidos" loading="lazy">
+        <!-- Legenda do exemplo. -->
+        <figcaption><strong>Definição</strong><span>Treino de força e dieta com proteína.</span></figcaption>
+      <!-- Fim do exemplo 5. -->
+      </figure>
+      <!-- Exemplo 6: data-cat diz em qual filtro a foto aparece; loading=lazy só carrega a imagem quando ela chega na tela. -->
+      <figure class="example" data-cat="mulher">
+        <!-- Foto de antes e depois (esquerda = antes, direita = depois). -->
+        <img src="img/mulher-2.jpg" alt="Mulher de perfil antes, com barriga, e depois, com a barriga mais reta" loading="lazy">
+        <!-- Legenda do exemplo. -->
+        <figcaption><strong>Menos barriga, mais postura</strong><span>Déficit calórico leve e treino de corpo inteiro.</span></figcaption>
+      <!-- Fim do exemplo 6. -->
+      </figure>
+      <!-- Exemplo 7: data-cat diz em qual filtro a foto aparece; loading=lazy só carrega a imagem quando ela chega na tela. -->
+      <figure class="example" data-cat="mulher">
+        <!-- Foto de antes e depois (esquerda = antes, direita = depois). -->
+        <img src="img/mulher-3.jpg" alt="Mulher de biquíni antes e, depois, mais magra com roupa de academia" loading="lazy">
+        <!-- Legenda do exemplo. -->
+        <figcaption><strong>Perder gordura</strong><span>Mudança de hábitos ao longo de alguns anos.</span></figcaption>
+      <!-- Fim do exemplo 7. -->
+      </figure>
+      <!-- Exemplo 8: data-cat diz em qual filtro a foto aparece; loading=lazy só carrega a imagem quando ela chega na tela. -->
+      <figure class="example" data-cat="mulher">
+        <!-- Foto de antes e depois (esquerda = antes, direita = depois). -->
+        <img src="img/mulher-4.jpg" alt="Mulher de biquíni antes e, depois, muito musculosa na academia" loading="lazy">
+        <!-- Legenda do exemplo. -->
+        <figcaption><strong>Ganhar massa</strong><span>Musculação pesada por vários anos.</span></figcaption>
+      <!-- Fim do exemplo 8. -->
+      </figure>
+      <!-- Exemplo 9: data-cat diz em qual filtro a foto aparece; loading=lazy só carrega a imagem quando ela chega na tela. -->
+      <figure class="example" data-cat="velho">
+        <!-- Foto de antes e depois (esquerda = antes, direita = depois). -->
+        <img src="img/velho-1.jpg" alt="Homem careca de óculos antes, com barriga, e depois, musculoso e com abdômen definido" loading="lazy">
+        <!-- Legenda do exemplo. -->
+        <figcaption><strong>Idade não é limite</strong><span>Força e definição depois dos 50.</span></figcaption>
+      <!-- Fim do exemplo 9. -->
+      </figure>
+      <!-- Exemplo 10: data-cat diz em qual filtro a foto aparece; loading=lazy só carrega a imagem quando ela chega na tela. -->
+      <figure class="example" data-cat="velho">
+        <!-- Foto de antes e depois (esquerda = antes, direita = depois). -->
+        <img src="img/velho-2.jpg" alt="Homem aos 40 anos, com barriga, e aos 62, musculoso e definido" loading="lazy">
+        <!-- Legenda do exemplo. -->
+        <figcaption><strong>Dos 40 aos 62 anos</strong><span>Treino mantido por mais de 20 anos.</span></figcaption>
+      <!-- Fim do exemplo 10. -->
+      </figure>
+      <!-- Exemplo 11: data-cat diz em qual filtro a foto aparece; loading=lazy só carrega a imagem quando ela chega na tela. -->
+      <figure class="example" data-cat="velho">
+        <!-- Foto de antes e depois (esquerda = antes, direita = depois). -->
+        <img src="img/exemplo-2.jpg" alt="Homem antes, com pouco tônus muscular, e depois, mais definido, na praia" loading="lazy">
+        <!-- Legenda do exemplo. -->
+        <figcaption><strong>Perder gordura e definir</strong><span>Déficit calórico leve com treino de força.</span></figcaption>
+      <!-- Fim do exemplo 11. -->
       </figure>
     <!-- Fim da grade. -->
     </div>
