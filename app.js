@@ -1560,22 +1560,26 @@
   const escuroSistema = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
   // Atalhos para o botão e o painel de aparência.
   const btnAp = $('#btn-aparencia'), popAp = $('#painel-aparencia');
+  // Nome de cada modo de daltonismo (usado nos avisos e no leitor de tela).
+  const NOME_CVD = { off: 'desligado', protan: 'protanopia', deutan: 'deuteranopia', tritan: 'tritanopia', acro: 'acromatopsia' };
   // aplicarTema: lê as escolhas salvas, marca o <html> e deixa o painel mostrando as opções certas.
   function aplicarTema() {
-    // Tema salvo ("claro", "escuro" ou "auto") e se o modo daltônico está ligado.
-    const tema = store.get(KEY_TEMA, 'auto'), cvd = !!store.get(KEY_CVD, false);
+    // Tema salvo ("claro", "escuro" ou "auto") e o modo de daltonismo salvo (padrão "off").
+    const tema = store.get(KEY_TEMA, 'auto'); let cvd = store.get(KEY_CVD, 'off');
+    // Quem salvou na versão antiga (true/false) vira "deutan"/"off"; valor desconhecido vira "off".
+    if (cvd === true) cvd = 'deutan'; if (!NOME_CVD[cvd]) cvd = 'off';
     // Decide se fica escuro: escolha "escuro", ou "auto" com o aparelho no modo escuro.
     const escuro = tema === 'escuro' || (tema === 'auto' && !!escuroSistema && escuroSistema.matches);
     // data-theme no <html> troca todas as cores pelo CSS.
     document.documentElement.dataset.theme = escuro ? 'dark' : 'light';
-    // data-cvd="on" liga a paleta para daltonismo; delete remove o atributo.
-    if (cvd) document.documentElement.dataset.cvd = 'on'; else delete document.documentElement.dataset.cvd;
+    // data-cvd="protan" (ou outro modo) liga a paleta daquele daltonismo; "off" remove o atributo.
+    if (cvd !== 'off') document.documentElement.dataset.cvd = cvd; else delete document.documentElement.dataset.cvd;
     // Marca no painel o rádio do tema salvo.
     const r = $(`input[name="tema"][value="${tema}"]`); if (r) r.checked = true;
-    // Liga/desliga o interruptor conforme o salvo.
-    $('#opt-daltonico').checked = cvd;
+    // Marca no painel a opção de daltonismo salva.
+    const m = $(`input[name="cvd"][value="${cvd}"]`); if (m) m.checked = true;
     // Atualiza o nome do botão lido pelo leitor de tela.
-    btnAp.setAttribute('aria-label', `Aparência: tema ${escuro ? 'escuro' : 'claro'}${cvd ? ', modo daltônico ligado' : ''}`);
+    btnAp.setAttribute('aria-label', `Aparência: tema ${escuro ? 'escuro' : 'claro'}${cvd !== 'off' ? ', modo ' + NOME_CVD[cvd] : ''}`);
   // Fim da função aplicarTema.
   }
   // abrirAparencia(true/false): mostra ou esconde o painel e avisa o leitor de tela.
@@ -1598,8 +1602,8 @@
   popAp.addEventListener('change', (e) => {
     // se mudou o tema, salva e avisa;
     if (e.target.name === 'tema') { store.set(KEY_TEMA, e.target.value); toast({ claro: 'Tema claro ligado', escuro: 'Tema escuro ligado', auto: 'Tema automático: segue o aparelho' }[e.target.value]); }
-    // se mexeu no interruptor, salva e avisa;
-    if (e.target.id === 'opt-daltonico') { store.set(KEY_CVD, e.target.checked); toast(e.target.checked ? 'Modo daltônico ligado' : 'Modo daltônico desligado'); }
+    // se escolheu um modo de daltonismo, salva e avisa;
+    if (e.target.name === 'cvd') { store.set(KEY_CVD, e.target.value); toast(e.target.value === 'off' ? 'Modo de daltonismo desligado' : `Modo ${NOME_CVD[e.target.value]} ligado`); }
     // e aplica na hora.
     aplicarTema();
   // Fim do ouvinte.

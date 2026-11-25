@@ -30,7 +30,7 @@ atv9/
 8. **Salvar os dados.** Tudo vai para o `localStorage`, e quem volta ao site continua de onde parou.
 9. **Página inicial interativa.** Os passos de "Como o plano é montado" reagem ao mouse: uma barrinha cresce embaixo e o número sobe. Nos exemplos de antes e depois, botões filtram as fotos por Geral, Mulheres, Mais velhos e Jovens. Cada foto tem um `data-cat`, e o JavaScript mostra só as do grupo escolhido.
 10. **Acessibilidade.** Foco visível no teclado, textos alternativos nas fotos, `aria-live` para anunciar o IMC e contraste conferido pela WCAG.
-11. **Temas e modo daltônico.** O botão de sol/lua no topo troca entre claro, escuro e automático. O modo daltônico troca verde e vermelho por azul e laranja e acrescenta ✓, ! e listras para não depender só da cor.
+11. **Temas e daltonismo.** O botão de sol/lua no topo troca entre claro, escuro e automático, e tem quatro modos de daltonismo: protanopia, deuteranopia, tritanopia e acromatopsia. Cada modo troca só as variáveis de cor do CSS, e em todos os avisos ganham ✓, ! e listras para não depender só da cor.
 12. **Comentários.** Cada linha do código tem um comentário explicando o que faz.
 
 ## Aviso

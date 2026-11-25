@@ -22,8 +22,10 @@
     var escuro = tema === 'escuro' || (tema === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
     // Marca o <html> com data-theme="dark" ou "light"; o CSS troca as cores a partir disso.
     document.documentElement.dataset.theme = escuro ? 'dark' : 'light';
-    // Se o modo daltônico estiver ligado, marca o <html> com data-cvd="on".
-    if (JSON.parse(localStorage.getItem('prumo:daltonico'))) document.documentElement.dataset.cvd = 'on';
+    // Lê o modo de daltonismo salvo ("protan", "deutan", "tritan", "acro" ou "off"); o antigo "true" vira "deutan".
+    var cvd = JSON.parse(localStorage.getItem('prumo:daltonico')); if (cvd === true) cvd = 'deutan';
+    // Se houver um modo ligado, marca o <html> com data-cvd="protan" (ou o modo escolhido).
+    if (cvd && cvd !== 'off') document.documentElement.dataset.cvd = cvd;
   // Fim do try (erros são ignorados).
   } catch (e) {}
 </script>
@@ -74,16 +76,28 @@
             </div>
           <!-- Fim do grupo. -->
           </fieldset>
-          <!-- Interruptor do modo daltônico: a caixa de marcar real fica invisível e a "trilha" desenha o botão. -->
-          <label class="switch">
-            <!-- Caixa de marcar real (role=switch faz o leitor de tela falar "ligado/desligado"). -->
-            <input type="checkbox" id="opt-daltonico" role="switch">
-            <!-- Trilha com a bolinha que desliza. -->
-            <span class="switch-track" aria-hidden="true"></span>
-            <!-- Texto do interruptor. -->
-            <span class="switch-txt"><strong>Modo daltônico</strong><small>Troca verde e vermelho por azul e laranja e marca os avisos com ✓ e !</small></span>
-          <!-- Fim do interruptor. -->
-          </label>
+          <!-- Grupo dos modos de daltonismo: só um pode ficar marcado (mesmo name="cvd"). -->
+          <fieldset class="a11y-group">
+            <!-- Título do grupo. -->
+            <legend>Daltonismo</legend>
+            <!-- Lista das opções; as bolinhas coloridas mostram a paleta de cada modo. -->
+            <div class="cvd-lista">
+              <!-- Opção "Desligado": cores normais do prumo. -->
+              <label class="cvd-op"><input type="radio" name="cvd" value="off" checked><span class="bola" aria-hidden="true"></span><span class="cvd-txt"><strong>Desligado</strong><small>Cores normais do Prumo</small></span><span class="amostra" aria-hidden="true"><i style="background:#1E4A39"></i><i style="background:#F0D27C"></i><i style="background:#B0553A"></i></span></label>
+              <!-- Opção "Protanopia": não enxerga o vermelho. -->
+              <label class="cvd-op"><input type="radio" name="cvd" value="protan"><span class="bola" aria-hidden="true"></span><span class="cvd-txt"><strong>Protanopia</strong><small>Não enxerga o vermelho</small></span><span class="amostra" aria-hidden="true"><i style="background:#0A4C86"></i><i style="background:#F5C242"></i><i style="background:#A65E00"></i></span></label>
+              <!-- Opção "Deuteranopia": não enxerga o verde. -->
+              <label class="cvd-op"><input type="radio" name="cvd" value="deutan"><span class="bola" aria-hidden="true"></span><span class="cvd-txt"><strong>Deuteranopia</strong><small>Não enxerga o verde</small></span><span class="amostra" aria-hidden="true"><i style="background:#0B4F8A"></i><i style="background:#F2B33D"></i><i style="background:#C85200"></i></span></label>
+              <!-- Opção "Tritanopia": confunde azul com amarelo. -->
+              <label class="cvd-op"><input type="radio" name="cvd" value="tritan"><span class="bola" aria-hidden="true"></span><span class="cvd-txt"><strong>Tritanopia</strong><small>Confunde azul com amarelo</small></span><span class="amostra" aria-hidden="true"><i style="background:#155E63"></i><i style="background:#F4A6B8"></i><i style="background:#C0262D"></i></span></label>
+              <!-- Opção "Acromatopsia": não enxerga cores, só tons de cinza. -->
+              <label class="cvd-op"><input type="radio" name="cvd" value="acro"><span class="bola" aria-hidden="true"></span><span class="cvd-txt"><strong>Acromatopsia</strong><small>Não enxerga cores, só tons de cinza</small></span><span class="amostra" aria-hidden="true"><i style="background:#2A2A2A"></i><i style="background:#BDBDBD"></i><i style="background:#000000"></i></span></label>
+            <!-- Fim da lista. -->
+            </div>
+            <!-- Explicação: em todos os modos os avisos ganham sinais, não só cores. -->
+            <p class="cvd-nota">Em qualquer modo, os avisos ganham ✓ e ! e a régua do IMC ganha listras.</p>
+          <!-- Fim do grupo. -->
+          </fieldset>
         <!-- Fim do painel. -->
         </div>
       <!-- Fim da caixa de aparência. -->

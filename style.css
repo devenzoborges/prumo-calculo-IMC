@@ -824,39 +824,80 @@ input::placeholder, textarea::placeholder { color: color-mix(in srgb, var(--mute
 .a11y-group legend { padding: 0; margin-bottom: 10px; font-weight: 700; font-size: .95rem; }
 /* Botões segmentados menores. */
 .seg-sm span { padding: 7px 13px; font-size: .88rem; }
-/* Interruptor: trilha à esquerda e texto à direita. */
-.switch { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start; cursor: pointer; }
-/* A caixa de marcar real fica invisível por cima de tudo (continua clicável e acessível). */
-.switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-/* Trilha do interruptor: pílula cinza de 42×24px. */
-.switch-track { position: relative; width: 42px; height: 24px; margin-top: 2px; border-radius: 999px; background: color-mix(in srgb, var(--ink) 22%, transparent); transition: background-color .2s ease; }
-/* Bolinha do interruptor. */
-.switch-track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--paper); box-shadow: 0 1px 3px rgba(0,0,0,.3); transition: transform .2s ease; }
-/* Ligado: trilha verde... */
-.switch input:checked + .switch-track { background: var(--green-2); }
-/* ...e a bolinha desliza para a direita. */
-.switch input:checked + .switch-track::after { transform: translateX(18px); }
-/* Foco do teclado: contorno na trilha. */
-.switch input:focus-visible + .switch-track { outline: 3px solid var(--focus); outline-offset: 2px; }
-/* Texto do interruptor: título e explicação empilhados. */
-.switch-txt { display: grid; gap: 2px; }
+/* Painel pode ficar alto: no máximo a altura da tela, com rolagem própria. */
+.a11y-pop { max-height: calc(100vh - 90px); overflow-y: auto; }
+/* Lista das opções de daltonismo, uma embaixo da outra. */
+.cvd-lista { display: grid; gap: 2px; margin: 0 -8px; }
+/* Cada opção: bolinha de marcar, texto e amostra de cores lado a lado. */
+.cvd-op { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 8px; border-radius: 10px; cursor: pointer; }
+/* O rádio real fica invisível por cima da opção toda (continua clicável e acessível). */
+.cvd-op input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+/* Ao passar o mouse: fundo bem leve. */
+.cvd-op:hover { background: color-mix(in srgb, var(--ink) 6%, transparent); }
+/* Bolinha de marcar desenhada: círculo vazio de 18px. */
+.cvd-op .bola { width: 18px; height: 18px; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--ink) 35%, transparent); display: grid; place-items: center; }
+/* Ponto de dentro da bolinha, começa encolhido. */
+.cvd-op .bola::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--green-2); transform: scale(0); transition: transform .15s ease; }
+/* Opção marcada: borda da bolinha na cor principal... */
+.cvd-op input:checked ~ .bola { border-color: var(--green-2); }
+/* ...e o ponto de dentro aparece. */
+.cvd-op input:checked ~ .bola::after { transform: scale(1); }
+/* Opção marcada ganha um fundo leve. */
+.cvd-op:has(input:checked) { background: color-mix(in srgb, var(--green-2) 10%, transparent); }
+/* Foco do teclado: contorno na bolinha. */
+.cvd-op input:focus-visible ~ .bola { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* Nome e explicação empilhados. */
+.cvd-txt { display: grid; }
+/* Nome do modo. */
+.cvd-txt strong { font-size: .92rem; }
 /* Explicação pequena e apagada. */
-.switch-txt small { font-size: .82rem; color: var(--muted); line-height: 1.4; }
+.cvd-txt small { font-size: .78rem; color: var(--muted); line-height: 1.35; }
+/* Amostra: três bolinhas com as cores principais do modo. */
+.amostra { display: flex; }
+/* Cada bolinha da amostra, sobrepostas um pouco (margem negativa) com contorno da cor do fundo. */
+.amostra i { width: 14px; height: 14px; border-radius: 50%; margin-left: -4px; box-shadow: 0 0 0 2px var(--paper); }
+/* Nota embaixo da lista. */
+.cvd-nota { font-size: .8rem; color: var(--muted); line-height: 1.4; }
 
-/* ---------- modo daltônico ---------- */
-/* Paleta Okabe-Ito (feita para daltonismo): o verde vira azul, a terracota vira laranja-avermelhado e o amarelo vira laranja. */
-:root[data-cvd="on"] {
+/* ---------- modos de daltonismo ---------- */
+/* Cada modo troca só as variáveis de cor; o resto do CSS já usa var(--...), então o site todo muda junto. */
+
+/* Protanopia (não enxerga o vermelho; vermelho parece escuro e apagado): azul + amarelo, e o alerta vira âmbar escuro. */
+:root[data-cvd="protan"] {
+  /* Azuis no lugar dos verdes. */
+  --green: #0A4C86; --green-2: #1565A6; --green-soft: #DCE7F4; --on-green: #F3F7FC; --on-green-muted: #BDD0E5;
+  /* Amarelo forte no lugar do manteiga. */
+  --butter: #F5C242; --butter-ink: #2B1F00;
+  /* Âmbar escuro no lugar da terracota (vermelho sumiria). */
+  --terra: #A65E00; --on-terra: #FFFFFF; --focus: #A65E00;
+  /* Régua de IMC: azul claro, azul, amarelo e âmbar escuro. */
+  --g-low: #9DCBEA; --g-ok: #1565A6; --g-over: #F5C242; --g-ob: #8A4B00;
+}
+/* Protanopia no tema escuro. */
+:root[data-cvd="protan"][data-theme="dark"] {
+  /* Azuis escuros. */
+  --green: #0D3961; --green-2: #2E7BC0; --green-soft: #1A2B3D; --on-green: #F3F7FC; --on-green-muted: #A9C2DC;
+  /* Amarelo. */
+  --butter: #F5C64F; --butter-ink: #2B1F00;
+  /* Âmbar claro para aparecer no escuro. */
+  --terra: #E09A3A; --on-terra: #1A1000; --focus: #F5C64F;
+  /* Régua de IMC. */
+  --g-low: #7FB8E0; --g-ok: #2E7BC0; --g-over: #F5C64F; --g-ob: #E09A3A;
+}
+
+/* Deuteranopia (não enxerga o verde; o tipo mais comum): paleta Okabe-Ito, azul + laranja + vermelhão. */
+:root[data-cvd="deutan"] {
   /* Azuis no lugar dos verdes. */
   --green: #0B4F8A; --green-2: #1767AC; --green-soft: #DCE8F5; --on-green: #F3F7FC; --on-green-muted: #BCD0E6;
   /* Laranja no lugar do amarelo. */
   --butter: #F2B33D; --butter-ink: #2B1C00;
   /* Vermelhão no lugar da terracota; o foco acompanha. */
   --terra: #C85200; --on-terra: #FFFFFF; --focus: #C85200;
-  /* Régua de IMC: azul claro, azul, laranja e vermelhão (diferem também no claro/escuro). */
+  /* Régua de IMC: azul claro, azul, laranja e vermelhão. */
   --g-low: #8CC8EE; --g-ok: #1767AC; --g-over: #F2B33D; --g-ob: #C85200;
 }
-/* Modo daltônico + tema escuro: as mesmas cores, ajustadas para o fundo escuro. */
-:root[data-cvd="on"][data-theme="dark"] {
+/* Deuteranopia no tema escuro. */
+:root[data-cvd="deutan"][data-theme="dark"] {
   /* Azuis escuros. */
   --green: #0E3A63; --green-2: #2A78BD; --green-soft: #1A2C3F; --on-green: #F3F7FC; --on-green-muted: #A9C2DC;
   /* Laranja. */
@@ -866,16 +907,66 @@ input::placeholder, textarea::placeholder { color: color-mix(in srgb, var(--mute
   /* Régua de IMC. */
   --g-low: #7DBCE6; --g-ok: #2A78BD; --g-over: #F2B84D; --g-ob: #E0743A;
 }
+
+/* Tritanopia (confunde azul com amarelo; vermelho e verde-azulado continuam diferentes): azul-petróleo + rosa + vermelho. */
+:root[data-cvd="tritan"] {
+  /* Azul-petróleo no lugar dos verdes. */
+  --green: #155E63; --green-2: #1F7A80; --green-soft: #D9ECEC; --on-green: #F2FAFA; --on-green-muted: #B5D5D6;
+  /* Rosa no lugar do amarelo (amarelo seria confundido). */
+  --butter: #F4A6B8; --butter-ink: #3A0F1A;
+  /* Vermelho puro no lugar da terracota. */
+  --terra: #C0262D; --on-terra: #FFFFFF; --focus: #C0262D;
+  /* Régua de IMC: petróleo claro, petróleo, rosa e vermelho. */
+  --g-low: #A9D6D6; --g-ok: #1F7A80; --g-over: #F4A6B8; --g-ob: #C0262D;
+}
+/* Tritanopia no tema escuro. */
+:root[data-cvd="tritan"][data-theme="dark"] {
+  /* Petróleo escuro. */
+  --green: #0F4548; --green-2: #2A9399; --green-soft: #1A3133; --on-green: #F2FAFA; --on-green-muted: #A6CDCF;
+  /* Rosa. */
+  --butter: #F4AFC0; --butter-ink: #3A0F1A;
+  /* Vermelho mais claro; foco rosa. */
+  --terra: #E5545A; --on-terra: #1A0606; --focus: #F4AFC0;
+  /* Régua de IMC. */
+  --g-low: #7FC4C6; --g-ok: #2A9399; --g-over: #F4AFC0; --g-ob: #E5545A;
+}
+
+/* Acromatopsia (não enxerga cores): tudo em cinza, com bastante diferença entre claro e escuro para separar as coisas. */
+:root[data-cvd="acro"] {
+  /* Fundo, superfícies, texto e linhas em cinza neutro. */
+  --sand: #EBEBEB; --paper: #F8F8F8; --ink: #141414; --muted: #555555; --line: rgba(0, 0, 0, .16);
+  /* Cinza-escuro no lugar dos verdes. */
+  --green: #2A2A2A; --green-2: #4A4A4A; --green-soft: #DADADA; --on-green: #FFFFFF; --on-green-muted: #C8C8C8;
+  /* Cinza-claro no lugar do amarelo. */
+  --butter: #D0D0D0; --butter-ink: #111111;
+  /* Preto no lugar da terracota: o alerta se destaca pelo contraste máximo. */
+  --terra: #000000; --on-terra: #FFFFFF; --focus: #000000;
+  /* Régua de IMC: do cinza mais claro ao quase preto. */
+  --g-low: #E0E0E0; --g-ok: #8A8A8A; --g-over: #5A5A5A; --g-ob: #1A1A1A;
+}
+/* Acromatopsia no tema escuro. */
+:root[data-cvd="acro"][data-theme="dark"] {
+  /* Fundo e texto em cinza escuro/claro. */
+  --sand: #121212; --paper: #1E1E1E; --ink: #EDEDED; --muted: #A8A8A8; --line: rgba(255, 255, 255, .14);
+  /* Cinzas no lugar dos verdes. */
+  --green: #333333; --green-2: #5A5A5A; --green-soft: #2A2A2A; --on-green: #FFFFFF; --on-green-muted: #BDBDBD;
+  /* Cinza-claro. */
+  --butter: #CFCFCF; --butter-ink: #111111;
+  /* Branco no lugar da terracota. */
+  --terra: #FFFFFF; --on-terra: #000000; --focus: #FFFFFF;
+  /* Régua de IMC: do cinza-escuro ao quase branco. */
+  --g-low: #3A3A3A; --g-ok: #7A7A7A; --g-over: #B0B0B0; --g-ob: #EEEEEE;
+}
 /* Além da cor, as faixas de risco ganham listras (sobrepeso) e listras mais grossas (obesidade). */
-:root[data-cvd="on"] .g-over { background-image: repeating-linear-gradient(135deg, rgba(0,0,0,.22) 0 2px, transparent 2px 5px); }
+:root[data-cvd] .g-over { background-image: repeating-linear-gradient(135deg, rgba(0,0,0,.22) 0 2px, transparent 2px 5px); }
 /* Listras da obesidade. */
-:root[data-cvd="on"] .g-ob { background-image: repeating-linear-gradient(135deg, rgba(0,0,0,.3) 0 3px, transparent 3px 6px); }
+:root[data-cvd] .g-ob { background-image: repeating-linear-gradient(135deg, rgba(0,0,0,.3) 0 3px, transparent 3px 6px); }
 /* Pílulas e etiquetas ganham um sinal na frente: ✓ para "ok"... */
-:root[data-cvd="on"] .pill.ok::before { content: "✓ "; }
+:root[data-cvd] .pill.ok::before { content: "✓ "; }
 /* ...e ! para alerta. */
-:root[data-cvd="on"] .pill.warn::before, :root[data-cvd="on"] .tag.warn::before { content: "! "; }
+:root[data-cvd] .pill.warn::before, :root[data-cvd] .tag.warn::before { content: "! "; }
 /* Na linha do tempo do resumo, o treino vira um quadrado para não depender só da cor. */
-:root[data-cvd="on"] .timeline .k-treino .pt { border-radius: 2px; }
+:root[data-cvd] .timeline .k-treino .pt { border-radius: 2px; }
 
 /* ---------- barra lateral em telas menores ---------- */
 /* Até 980px a barra vira uma faixa em cima do conteúdo. */
